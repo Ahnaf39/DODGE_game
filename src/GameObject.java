@@ -45,4 +45,5 @@ public abstract class GameObject {
     public void setVelY(int velY){
         this.velY = velY;
     }
+
 }
