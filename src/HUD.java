@@ -4,7 +4,6 @@ public class HUD {
     public static int HEALTH =100;
 
     public void tick(){
-        HEALTH--;
         if (HEALTH<=0){
             HEALTH=0;
         }

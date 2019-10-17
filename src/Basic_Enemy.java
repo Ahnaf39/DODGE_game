@@ -3,6 +3,7 @@ import java.util.Random;
 
 public class Basic_Enemy extends GameObject {
     private int storeX, storeY;
+
     Random r = new Random();
     public Basic_Enemy(int x, int y, ID id) {
         super(x,y,id);
@@ -10,8 +11,13 @@ public class Basic_Enemy extends GameObject {
         storeY=y;
         velX =-1*(r.nextInt(9)+1);
         velY = r.nextInt(5);
+
     }
 
+    public Rectangle getBounds(){
+        return new Rectangle(x,y,16,16);//16 is from width and height below
+        // needs better implementation and less hardcody
+    }
     public void tick() {
 
         x+=velX;

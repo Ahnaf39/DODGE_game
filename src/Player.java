@@ -1,10 +1,17 @@
 import java.awt.*;
+import java.util.Random;
 
 public class Player extends GameObject{
-    public Player(int x, int y, ID id) {
+    Random r = new Random();
+    Handler handler;
+    public Player(int x, int y, ID id, Handler handler) {
         super(x, y, id);
         //velX=1;
-
+        this.handler=handler;
+    }
+    public Rectangle getBounds(){
+        return new Rectangle(x,y,32,32);//32 is from width and height below
+                                                    // needs better implementation and less hardcody
     }
 
     public void tick() {
@@ -25,6 +32,19 @@ public class Player extends GameObject{
         }
         else if (y<=0){
             y=0;
+        }
+
+        collision();
+    }
+    private void collision(){
+        for(int i=0; i<handler.object.size();i++){
+            GameObject tempObject = handler.object.get(i);
+            if (tempObject.getId()==ID.Basic_Enemy){
+                if(getBounds().intersects(tempObject.getBounds())){
+                    HUD.HEALTH--;
+                }
+            }
+
         }
     }
 

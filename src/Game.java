@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable,Serializable{
         /*for (int i=0; i<50; i++){
             handler.addObject(new Player(r.nextInt(WIDTH),(r.nextInt(HEIGHT)),ID.Player));
         }*/
-        handler.addObject(new Player(100,100,ID.Player));
+        handler.addObject(new Player(100,100,ID.Player, handler));
         for (int i=0; i<5; i++) {
             for (int j=1; j<10;j++) {
                 handler.addObject(new Basic_Enemy(600, 50*j, ID.Basic_Enemy));
