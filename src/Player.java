@@ -2,11 +2,18 @@ import java.awt.*;
 import java.util.Random;
 
 public class Player extends GameObject{
-    Random r = new Random();
     Handler handler;
+    public static int PLAYER_ALIVE = 1;
+    public static int PLAYER_DEAD = 0;
+
+    public int state;
+
+    private int deathEffectCount = 0;
+
     public Player(int x, int y, ID id, Handler handler) {
         super(x, y, id);
         //velX=1;
+        state = PLAYER_ALIVE;
         this.handler=handler;
     }
     public Rectangle getBounds(){
@@ -48,8 +55,46 @@ public class Player extends GameObject{
         }
     }
 
+    public void setPlayerState(int state) {
+        this.state = state;
+    }
+
+    public int getPlayerState() {
+        return this.state;
+    }
+
     public void render(Graphics g) {
         g.setColor(Color.white);
         g.fillRoundRect(x,y,32,32,10,10);
+    }
+
+    public void playerDeath(Graphics g) {
+        if (deathEffectCount == 0) {
+
+            g.setColor(Color.YELLOW);
+            g.fillRoundRect(x, y, 32, 32, 20, 20);
+            deathEffectCount++;
+        } else if (deathEffectCount >= 1 && deathEffectCount <= 5000) {
+
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+                    int xcoord = x + (i * (deathEffectCount / 100) * 25) + 16 - 5;
+                    int ycoord = y + (j * (deathEffectCount / 100) * 25) + 16 - 5;
+
+                    if (!(i == 0 && j == 0)) {
+                        g.setColor(Color.YELLOW);
+                        g.fillRoundRect(xcoord, ycoord, 15, 15, 10, 10);
+                    }
+                }
+            }
+
+            deathEffectCount ++;
+            g.setColor(Color.black);
+            g.fillRoundRect(x,y,32,32,10,10);
+        } else {
+            g.setColor(Color.black);
+            g.fillRoundRect(x,y,32,32,10,10);
+        }
+
     }
 }

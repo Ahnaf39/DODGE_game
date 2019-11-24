@@ -13,27 +13,41 @@ public class Game extends Canvas implements Runnable,Serializable{
     private Random r;
     private Handler handler;
     private HUD hud;
+    private Spawn spawner;
+    private Menu menu;
+
+    public enum STATE{
+        Menu,
+        Game
+    }
+    public STATE gameState = STATE.Menu;
 
     public Game(){
         handler = new Handler();
+        menu = new Menu(this, handler);
         this.addKeyListener(new KeyInput(handler));
+        this.addMouseListener(menu);
         new Window(WIDTH,HEIGHT,"Aoi no Sora",this);
 
         hud = new HUD();
+        spawner = new Spawn(handler, hud);
         r = new Random();
         /*for (int i=0; i<50; i++){
             handler.addObject(new Player(r.nextInt(WIDTH),(r.nextInt(HEIGHT)),ID.Player));
         }*/
-        handler.addObject(new Player(100,100,ID.Player, handler));
-        for (int i=0; i<5; i++) {
-            for (int j=1; j<10;j++) {
-                handler.addObject(new Basic_Enemy(600, 50*j, ID.Basic_Enemy));
-            }
-        }
+//        if (gameState == STATE.Game) {
+//            handler.addObject(new Player(100, 100, ID.Player, handler));
+//            for (int i = 0; i < 5; i++) {
+//                for (int j = 1; j < 10; j++) {
+//                    handler.addObject(new Basic_Enemy(600, 50 * j, ID.Basic_Enemy));
+//                }
+//            }
+//        }
     }
     public synchronized void start(){
         thread = new Thread(this);
         thread.start();
+
         running = true;
     }
     public synchronized void stop(){
@@ -76,7 +90,13 @@ public class Game extends Canvas implements Runnable,Serializable{
     }
     private void tick(){
         handler.tick();
-        hud.tick();
+        if(gameState == STATE.Game) {
+            hud.tick();
+        }
+        else if (gameState == STATE.Menu){
+            menu.tick();
+        }
+
     }
     private void render(){
         BufferStrategy bs = this.getBufferStrategy();
@@ -90,8 +110,12 @@ public class Game extends Canvas implements Runnable,Serializable{
         g.fillRect(0,0,WIDTH,HEIGHT);
 
         handler.render(g);
-        hud.render(g);
-
+        if (gameState == STATE.Game) {
+            hud.render(g);
+        }
+        else if (gameState == STATE.Menu){
+            menu.render(g);
+        }
         g.dispose();
         bs.show();
     }

@@ -17,21 +17,28 @@ public class KeyInput extends KeyAdapter {
             GameObject tempObject = handler.object.get(i);
             if (tempObject.getId()==ID.Player){
                 //key events for player 1
-                if (key==KeyEvent.VK_UP){
-                    uP = true;
-                    tempObject.setVelY(-5);
-                }
-                if (key==KeyEvent.VK_DOWN){
-                    dP = true;
-                    tempObject.setVelY(5);
-                }
-                if (key==KeyEvent.VK_RIGHT){
-                    rP = true;
-                    tempObject.setVelX(5);
-                }
-                if (key==KeyEvent.VK_LEFT){
-                    lP = true;
-                    tempObject.setVelX(-5);
+                System.out.println(((Player) tempObject).getPlayerState());
+                if (((Player) tempObject).getPlayerState() == Player.PLAYER_ALIVE) {
+                    if (key==KeyEvent.VK_UP){
+                        uP = true;
+                        tempObject.setVelY(-5);
+                    }
+                    if (key==KeyEvent.VK_DOWN){
+                        dP = true;
+                        tempObject.setVelY(5);
+                    }
+                    if (key==KeyEvent.VK_RIGHT){
+                        rP = true;
+                        tempObject.setVelX(5);
+                    }
+                    if (key==KeyEvent.VK_LEFT){
+                        lP = true;
+                        tempObject.setVelX(-5);
+                    }
+                } else {
+                    // dont do anything
+                    tempObject.setVelX(0);
+                    tempObject.setVelY(0);
                 }
             }
         }
@@ -43,34 +50,40 @@ public class KeyInput extends KeyAdapter {
             GameObject tempObject = handler.object.get(i);
             if (tempObject.getId()==ID.Player){
                 //key events for player 1
-                if (key==KeyEvent.VK_UP){
-                    uP=false;
-                    if(dP){
-                        tempObject.setVelY(5);
+
+                    if (key == KeyEvent.VK_UP) {
+                        uP = false;
+                        if (dP) {
+                            tempObject.setVelY(5);
+                        } else {
+                            tempObject.setVelY(0);
+                        }
                     }
-                    else{tempObject.setVelY(0);}
-                }
-                if (key==KeyEvent.VK_DOWN){
-                    dP=false;
-                    if(uP){
-                        tempObject.setVelY(-5);
+                    if (key == KeyEvent.VK_DOWN) {
+                        dP = false;
+                        if (uP) {
+                            tempObject.setVelY(-5);
+                        } else {
+                            tempObject.setVelY(0);
+                        }
                     }
-                    else{tempObject.setVelY(0);}
-                }
-                if (key==KeyEvent.VK_RIGHT){
-                    rP=false;
-                    if(lP){
-                        tempObject.setVelX(-5);
+                    if (key == KeyEvent.VK_RIGHT) {
+                        rP = false;
+                        if (lP) {
+                            tempObject.setVelX(-5);
+                        } else {
+                            tempObject.setVelX(0);
+                        }
                     }
-                    else{tempObject.setVelX(0);}
-                }
-                if (key==KeyEvent.VK_LEFT){
-                    lP=false;
-                    if(rP){
-                        tempObject.setVelX(5);
+                    if (key == KeyEvent.VK_LEFT) {
+                        lP = false;
+                        if (rP) {
+                            tempObject.setVelX(5);
+                        } else {
+                            tempObject.setVelX(0);
+                        }
                     }
-                    else{tempObject.setVelX(0);}
-                }
+
             }
         }
     }
