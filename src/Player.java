@@ -17,7 +17,7 @@ public class Player extends GameObject{
         this.handler=handler;
     }
     public Rectangle getBounds(){
-        return new Rectangle(x,y,32,32);//32 is from width and height below
+        return new Rectangle((int)x,(int)y,32,32);//32 is from width and height below
                                                     // needs better implementation and less hardcody
     }
 
@@ -46,7 +46,7 @@ public class Player extends GameObject{
     private void collision(){
         for(int i=0; i<handler.object.size();i++){
             GameObject tempObject = handler.object.get(i);
-            if (tempObject.getId()==ID.Basic_Enemy){
+            if (tempObject.getId()==ID.Basic_Enemy||tempObject.getId()==ID.SmartEnemy){
                 if(getBounds().intersects(tempObject.getBounds())){
                     HUD.HEALTH--;
                 }
@@ -58,6 +58,7 @@ public class Player extends GameObject{
     public void setPlayerState(int state) {
         this.state = state;
     }
+    public int getdeathEffectCount(){return deathEffectCount;}
 
     public int getPlayerState() {
         return this.state;
@@ -65,36 +66,36 @@ public class Player extends GameObject{
 
     public void render(Graphics g) {
         g.setColor(Color.white);
-        g.fillRoundRect(x,y,32,32,10,10);
+        g.fillRoundRect((int)x,(int)y,32,32,10,10);
+
     }
 
     public void playerDeath(Graphics g) {
         if (deathEffectCount == 0) {
 
             g.setColor(Color.YELLOW);
-            g.fillRoundRect(x, y, 32, 32, 20, 20);
+            g.fillRoundRect((int)x, (int)y, 32, 32, 20, 20);
             deathEffectCount++;
         } else if (deathEffectCount >= 1 && deathEffectCount <= 5000) {
 
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
-                    int xcoord = x + (i * (deathEffectCount / 100) * 25) + 16 - 5;
-                    int ycoord = y + (j * (deathEffectCount / 100) * 25) + 16 - 5;
+                    float xcoord = x + (i * (deathEffectCount / 100) * 25) + 16 - 5;
+                    float ycoord = y + (j * (deathEffectCount / 100) * 25) + 16 - 5;
 
                     if (!(i == 0 && j == 0)) {
                         g.setColor(Color.YELLOW);
-                        g.fillRoundRect(xcoord, ycoord, 15, 15, 10, 10);
+                        g.fillRoundRect((int)xcoord,(int) ycoord, 15, 15, 10, 10);
                     }
                 }
             }
 
             deathEffectCount ++;
             g.setColor(Color.black);
-            g.fillRoundRect(x,y,32,32,10,10);
+            g.fillRoundRect((int)x,(int)y,32,32,10,10);
         } else {
             g.setColor(Color.black);
-            g.fillRoundRect(x,y,32,32,10,10);
+            g.fillRoundRect((int)x,(int)y,32,32,10,10);
         }
-
     }
 }

@@ -6,6 +6,7 @@ import java.util.Random;
 public class Menu extends MouseAdapter{
     private Game game;
     private Handler handler;
+    private GameState gameState;
     private Random r = new Random();
     public Menu(Game game,Handler handler){
         this.game=game;
@@ -14,15 +15,11 @@ public class Menu extends MouseAdapter{
     public void mousePressed(MouseEvent e){
         int mx = e.getX();
         int my = e.getY();
+        gameState = new GameState(handler);
         //Start button
         if(mouseOver(mx,my,100,100,100,64)){ //xywidthheight taken from Start rectangle. Need better code
-            game.gameState = Game.STATE.Game;
-            handler.addObject(new Player(100, 100, ID.Player, handler));
-            for (int i = 0; i < 5; i++) {
-                for (int j = 1; j < 10; j++) {
-                    handler.addObject(new Basic_Enemy(600, 50 * j, ID.Basic_Enemy));
-                }
-            }
+            gameState.GState();
+
         }
         if (mouseOver(mx,my,100,200,100,64)){
             System.exit(1);

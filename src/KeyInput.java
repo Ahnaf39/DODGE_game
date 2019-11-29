@@ -17,7 +17,6 @@ public class KeyInput extends KeyAdapter {
             GameObject tempObject = handler.object.get(i);
             if (tempObject.getId()==ID.Player){
                 //key events for player 1
-                System.out.println(((Player) tempObject).getPlayerState());
                 if (((Player) tempObject).getPlayerState() == Player.PLAYER_ALIVE) {
                     if (key==KeyEvent.VK_UP){
                         uP = true;
@@ -35,8 +34,11 @@ public class KeyInput extends KeyAdapter {
                         lP = true;
                         tempObject.setVelX(-5);
                     }
+                    if (key==KeyEvent.VK_SPACE){
+                        ((Player) tempObject).setPlayerState(Player.PLAYER_DEAD);
+                    }
                 } else {
-                    // dont do anything
+                    // don't do anything
                     tempObject.setVelX(0);
                     tempObject.setVelY(0);
                 }

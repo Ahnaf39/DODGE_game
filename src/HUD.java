@@ -4,7 +4,7 @@ public class HUD {
     public static int HEALTH =100;
     private int greenValue = 255;
     private int redValue=0;
-
+    private int shouldspawn=0;
     private int level = 1;
 
     public void tick(){

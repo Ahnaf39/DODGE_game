@@ -15,16 +15,19 @@ public class Game extends Canvas implements Runnable,Serializable{
     private HUD hud;
     private Spawn spawner;
     private Menu menu;
+    private GameState gstate;
 
     public enum STATE{
         Menu,
-        Game
+        FirstStage
+
     }
-    public STATE gameState = STATE.Menu;
+    public static STATE gameState = STATE.Menu;
 
     public Game(){
         handler = new Handler();
         menu = new Menu(this, handler);
+        gstate = new GameState(handler);
         this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(menu);
         new Window(WIDTH,HEIGHT,"Aoi no Sora",this);
@@ -35,7 +38,7 @@ public class Game extends Canvas implements Runnable,Serializable{
         /*for (int i=0; i<50; i++){
             handler.addObject(new Player(r.nextInt(WIDTH),(r.nextInt(HEIGHT)),ID.Player));
         }*/
-//        if (gameState == STATE.Game) {
+//        if (gameState == STATE.FirstStage) {
 //            handler.addObject(new Player(100, 100, ID.Player, handler));
 //            for (int i = 0; i < 5; i++) {
 //                for (int j = 1; j < 10; j++) {
@@ -90,8 +93,15 @@ public class Game extends Canvas implements Runnable,Serializable{
     }
     private void tick(){
         handler.tick();
-        if(gameState == STATE.Game) {
+        if(gameState == STATE.FirstStage) {
             hud.tick();
+            gstate.tick();
+           // spawner.tick();
+
+            /*if (HUD.HEALTH <=0){
+                HUD.HEALTH=100;          Code to go to menu screen after death, need to incorporate the animation code.
+                gameState=STATE.Menu;
+            }*/
         }
         else if (gameState == STATE.Menu){
             menu.tick();
@@ -110,8 +120,9 @@ public class Game extends Canvas implements Runnable,Serializable{
         g.fillRect(0,0,WIDTH,HEIGHT);
 
         handler.render(g);
-        if (gameState == STATE.Game) {
+        if (gameState == STATE.FirstStage) {
             hud.render(g);
+            gstate.render(g);
         }
         else if (gameState == STATE.Menu){
             menu.render(g);

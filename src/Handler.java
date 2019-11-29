@@ -4,7 +4,6 @@ import java.util.LinkedList;
 public class Handler {
     LinkedList<GameObject> object = new LinkedList<GameObject>();
 
-    public int playerState = 1;
     public void tick(){
         for (int i=0; i<object.size(); i++){
             GameObject tempObject = object.get(i);
@@ -13,6 +12,7 @@ public class Handler {
                 if (HUD.HEALTH == 0) {
                     ((Player) tempObject).setPlayerState(Player.PLAYER_DEAD);
                 }
+
             }
         }
     }
@@ -21,7 +21,7 @@ public class Handler {
             GameObject tempObject = object.get(i);
             tempObject.render(g);
 
-            if (tempObject.getId() == ID.Player && HUD.HEALTH == 0) {
+            if (tempObject.getId() == ID.Player && ((Player) tempObject).getPlayerState()==Player.PLAYER_DEAD) {
                 ((Player)tempObject).playerDeath(g);
             }
         }
