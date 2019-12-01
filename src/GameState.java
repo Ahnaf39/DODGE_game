@@ -16,7 +16,7 @@ public class GameState {
     }
 
     public void GState(){
-        if (Game.gameState == Game.STATE.Menu) {
+        if (Game.gameState == Game.STATE.Menu || Game.gameState==Game.STATE.FirstStage) {
             Handler.object.clear();
             Game.gameState = Game.STATE.FirstStage;
             handler.addObject(new Player(100, 100, ID.Player, handler));

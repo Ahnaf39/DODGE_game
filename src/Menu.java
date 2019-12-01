@@ -21,8 +21,25 @@ public class Menu extends MouseAdapter{
             gameState.GState();
 
         }
-        if (mouseOver(mx,my,100,200,100,64)){
-            System.exit(1);
+        if (mouseOver(mx,my,0,10,100,64)){
+            Game.gameState = Game.STATE.FirstStage;
+            gameState.GState();
+        }
+        if (mouseOver(mx,my,0,80,100,64)){
+            Game.gameState = Game.STATE.SecondStage;
+            gameState.GState();
+        }
+        if (mouseOver(mx,my,0,150,100,64)){
+            Game.gameState = Game.STATE.ThirdStage;
+            gameState.GState();
+        }
+        if (mouseOver(mx,my,0,220,100,64)){
+            Game.gameState = Game.STATE.FourthStage;
+            gameState.GState();
+        }
+        if (mouseOver(mx,my,0,300,100,64)){
+            Game.gameState = Game.STATE.FifthStage;
+            gameState.GState();
         }
     }
     public void mouseReleased(MouseEvent e){
@@ -45,5 +62,19 @@ public class Menu extends MouseAdapter{
         g.drawRect(100,100,100,64);
         g.drawString("Quit",110,240);
         g.drawRect(100,200,100,64);
+
+        Font fnt1 = new Font("helvetica", 1, 24);
+        g.setFont(fnt1);
+        g.drawString("Level 1",10,40);
+        g.drawRect(0,10,100,64);
+        g.drawString("Level 2",10,120);
+        g.drawRect(0,80,100,64);
+        g.drawString("Level 3",10,200);
+        g.drawRect(0,150,100,64);
+        g.drawString("Level 4",10,280);
+        g.drawRect(0,220,100,64);
+        g.drawString("Level 5",10,360);
+        g.drawRect(0,300,100,64);
+
     }
 }
