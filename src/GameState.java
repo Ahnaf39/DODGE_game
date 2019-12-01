@@ -15,18 +15,21 @@ public class GameState {
             Game.gameState = Game.STATE.FirstStage;
             handler.addObject(new Player(100, 100, ID.Player, handler));
             handler.addObject(new Basic_Enemy(600, 50, ID.Basic_Enemy));
+            HUD.level = 1;
         }
         if (Game.gameState == Game.STATE.SecondStage) {
             Handler.object.clear();
             Handler.initialEnemy = null;
             handler.addObject(new Player(100, 100, ID.Player, handler));
             handler.addObject(new SmartEnemy(600, 50, ID.SmartEnemy,handler));
+            HUD.level = 2;
         }
         if (Game.gameState == Game.STATE.ThirdStage) {
             Handler.object.clear();
             Handler.initialEnemy = null;
             handler.addObject(new Player(100, 100, ID.Player, handler));
             handler.addObject(new Basic_Enemy(600, 50, ID.Basic_Enemy));
+            HUD.level = 3;
         }
     }
 
