@@ -3,7 +3,6 @@ import java.util.Random;
 
 public class SmartEnemy extends GameObject {
 
-    private int storeX, storeY;
     private GameObject player;
     private int time;
     private Random r = new Random();
@@ -18,10 +17,6 @@ public class SmartEnemy extends GameObject {
             }
         }
 
-        storeX = x;
-        storeY = y;
-        velX = -1 *(r.nextInt(9) + 1);
-        velY = r.nextInt(5);
 
     }
 
@@ -40,12 +35,12 @@ public class SmartEnemy extends GameObject {
         float distance = (float) Math.sqrt((x - player.getX()) * (x - player.getX()) +
                                            (y - player.getY()) * (y - player.getY()));
 
-        velX=((-1 / distance) * diffX * 4);
-        velY=((-1 / distance) * diffY * 4);
+        velX = ((-1 / distance) * diffX * 3);
+        velY = ((-1 / distance) * diffY * 3);
 
         if(((Player) player).getPlayerState() == Player.PLAYER_DEAD){
-            velX=0;
-            velY=0;
+            velX = 0;
+            velY = 0;
         }
 
         time++;

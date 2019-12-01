@@ -31,7 +31,7 @@ public class Handler {
 
             if (tempObject.id == ID.Basic_Enemy) {
                 Basic_Enemy check_death = (Basic_Enemy) tempObject;
-                if (check_death.getCount() == 5) {
+                if (check_death.getCount() >= 5) {
                     removeObject(tempObject);
                 }
             }

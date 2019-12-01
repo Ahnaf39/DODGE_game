@@ -16,6 +16,7 @@ public class Player extends GameObject{
         state = PLAYER_ALIVE;
         this.handler=handler;
     }
+
     public Rectangle getBounds(){
         return new Rectangle((int)x,(int)y,32,32);//32 is from width and height below
                                                     // needs better implementation and less hardcody
@@ -28,27 +29,32 @@ public class Player extends GameObject{
         //Player not going out of room
         //the -32 and -62 here is from fillRoundRect width and height(trial and error)
         // and needs to be updated to be less hardcoded
-        if (x>=Game.WIDTH-32){
-            x=Game.WIDTH-32;
+        if (x >= Game.WIDTH-32){
+            x = Game.WIDTH-32;
         }
-        else if (x<=0){
-            x=0;
+        else if (x <= 0){
+            x = 0;
         }
-        if (y>=Game.HEIGHT-62){
-            y=Game.HEIGHT-62;
+        if (y >= Game.HEIGHT-62){
+            y = Game.HEIGHT-62;
         }
-        else if (y<=0){
-            y=0;
+        else if (y <= 0){
+            y = 0;
         }
 
         collision();
     }
+
     private void collision(){
-        for(int i=0; i<handler.object.size();i++){
+        for(int i = 0; i < handler.object.size(); i++){
             GameObject tempObject = handler.object.get(i);
-            if (tempObject.getId()==ID.Basic_Enemy||tempObject.getId()==ID.SmartEnemy||tempObject.getId()==ID.BasicEnemySpam){
+            if (tempObject.getId() == ID.Basic_Enemy || tempObject.getId() == ID.SmartEnemy || tempObject.getId() == ID.BasicEnemySpam){
                 if(getBounds().intersects(tempObject.getBounds())){
-                    HUD.HEALTH--;
+                    if (!Menu.isHardMode) {
+                        HUD.HEALTH--;
+                    } else {
+                        HUD.HEALTH -= 100;
+                    }
                 }
             }
 
@@ -58,7 +64,8 @@ public class Player extends GameObject{
     public void setPlayerState(int state) {
         this.state = state;
     }
-    public int getdeathEffectCount(){return deathEffectCount;}
+
+    public int getdeathEffectCount(){ return deathEffectCount;}
 
     public int getPlayerState() {
         return this.state;
@@ -66,7 +73,7 @@ public class Player extends GameObject{
 
     public void render(Graphics g) {
         g.setColor(Color.white);
-        g.fillRoundRect((int)x,(int)y,32,32,10,10);
+        g.fillRoundRect((int)x,(int)y,26,26,8,8);
 
     }
 

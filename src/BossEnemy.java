@@ -46,8 +46,19 @@ public class BossEnemy extends GameObject {
 
     public void render(Graphics g) {
         g.setColor(Color.magenta);
-        g.fillOval((int)x,(int)y,16, 16);
-        g.fillRoundRect((int)x,(int)y,32,32,32,32);
+        int[] xpoints0 = {(int) x, (int) x,(int) x- 12};
+        int[] ypoints0 = {(int) y + 20, (int) y + 30, (int) y + 25};
+        int[] xpoints1 = {(int) x + 15, (int) x + 31, (int) x + 23};
+        int[] ypoints1 = {(int) y, (int) y, (int) y - 10};
+        int[] xpoints2 = {(int) x + 15, (int) x + 31, (int) x + 23};
+        int[] ypoints2 = {(int) y + 50, (int) y + 50, (int) y + 60};
+        int[] xpoints3 = {(int) x + 50, (int) x + 50, (int) x + 62};
+        int[] ypoints3 = {(int) y + 20, (int) y + 30, (int) y + 25};
+        g.fillOval((int) x,(int) y,48, 48);
+        g.fillPolygon(xpoints0,ypoints0,3);
+        g.fillPolygon(xpoints1,ypoints1,3);
+        g.fillPolygon(xpoints2,ypoints2,3);
+        g.fillPolygon(xpoints3,ypoints3,3);
     }
 
     public int getBossPhase() {
