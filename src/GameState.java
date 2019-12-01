@@ -8,8 +8,8 @@ public class GameState {
         this.handler=handler;
     }
     public void GState(){
-        if (game.gameState == Game.STATE.Menu) {
-            game.gameState = Game.STATE.FirstStage;
+        if (Game.gameState == Game.STATE.Menu) {
+            Game.gameState = Game.STATE.FirstStage;
             handler.addObject(new Player(100, 100, ID.Player, handler));
             /*for (int i = 0; i < 5; i++) {
                 for (int j = 1; j < 10; j++) {
@@ -18,13 +18,14 @@ public class GameState {
             }*/
             handler.addObject(new Basic_Enemy(600, 50, ID.Basic_Enemy));
             handler.addObject(new SmartEnemy(600,400,ID.SmartEnemy,handler));
+            handler.addObject(new BossEnemy(600, 100, ID.BossEnemy));
         }
     }
     public void tick(){
         time++;
     }
     public void render(Graphics g){
-        if (game.gameState == Game.STATE.FirstStage) {
+        if (Game.gameState == Game.STATE.FirstStage) {
             if (time<duration) {
                 Font fnt = new Font("helvetica", 1, 32);
                 g.setFont(fnt);
