@@ -40,6 +40,11 @@ public class SmartEnemy extends GameObject {
         velX=((-1/distance)*diffX*4);
         velY=((-1/distance)*diffY*4);
 
+        if(((Player) player).getPlayerState()==Player.PLAYER_DEAD){
+            velX=0;
+            velY=0;
+        }
+
         /*if (y<=0 || y>=Game.HEIGHT-32){
             //y = storeY; //this y is for spam from one location
             velY*=-1; //this y is rebound

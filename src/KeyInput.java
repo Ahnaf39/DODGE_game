@@ -36,6 +36,7 @@ public class KeyInput extends KeyAdapter {
                     }
                     if (key==KeyEvent.VK_SPACE){
                         ((Player) tempObject).setPlayerState(Player.PLAYER_DEAD);
+                        HUD.HEALTH  =0;
                     }
                 } else {
                     // don't do anything
