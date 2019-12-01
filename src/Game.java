@@ -98,10 +98,6 @@ public class Game extends Canvas implements Runnable,Serializable{
             gstate.tick();
            // spawner.tick();
 
-            /*if (HUD.HEALTH <=0){
-                HUD.HEALTH=100;          Code to go to menu screen after death, need to incorporate the animation code.
-                gameState=STATE.Menu;
-            }*/
         }
         else if (gameState == STATE.Menu){
             menu.tick();
