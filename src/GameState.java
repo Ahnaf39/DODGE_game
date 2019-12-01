@@ -42,8 +42,9 @@ public class GameState {
         }
         if(Game.gameState==Game.STATE.SecondStage){
             time2++;
-            if(time2>=10000){
+            if(time2>=1000){
                 Game.gameState=Game.STATE.ThirdStage;
+                GState();
             }
         }
     }
@@ -59,7 +60,7 @@ public class GameState {
         }
         if (Game.gameState == Game.STATE.SecondStage) {
             if (time2<duration) {
-                Font fnt = new Font("helvetica", 1, 32);
+                Font fnt = new Font("helvetica", 1, 28);
                 g.setFont(fnt);
                 g.setColor(Color.white);
                 g.drawString("Press SPACE to do something super cool", 50, 50);
