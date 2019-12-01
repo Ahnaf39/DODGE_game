@@ -19,26 +19,29 @@ public class SmartEnemy extends GameObject {
         }
 
         storeX = x;
-        storeY=y;
-        velX =-1*(r.nextInt(9)+1);
+        storeY = y;
+        velX = -1 *(r.nextInt(9) + 1);
         velY = r.nextInt(5);
 
     }
 
     public Rectangle getBounds(){
-        return new Rectangle((int)x,(int)y,16,16);//16 is from width and height below
+        return new Rectangle((int)x,(int)y,16,16);
+        //16 is from width and height below
         // needs better implementation and less hardcody
     }
     public void tick() {
 
-        x+=velX;
-        y+=velY;
+        x += velX;
+        y += velY;
+
         float diffX = x - player.getX();
         float diffY = y - player.getY();
-        float distance = (float)Math.sqrt((x - player.getX())*(x - player.getX())+(y - player.getY())*(y - player.getY()));
+        float distance = (float) Math.sqrt((x - player.getX()) * (x - player.getX()) +
+                                           (y - player.getY()) * (y - player.getY()));
 
-        velX=((-1/distance)*diffX*4);
-        velY=((-1/distance)*diffY*4);
+        velX=((-1 / distance) * diffX * 4);
+        velY=((-1 / distance) * diffY * 4);
 
         if(((Player) player).getPlayerState()==Player.PLAYER_DEAD){
             velX=0;
