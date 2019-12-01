@@ -5,3 +5,6 @@
 out/
 out/production/
 out/production/GameAttempt
+
+out
+.idea
