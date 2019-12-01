@@ -35,6 +35,14 @@ public class Handler {
                     removeObject(tempObject);
                 }
             }
+
+            if (tempObject.id == ID.SmartEnemy) {
+                SmartEnemy check_death = (SmartEnemy) tempObject;
+                if (check_death.getTime() == 1000) {
+                    removeObject(tempObject);
+                }
+            }
+
         }
     }
 

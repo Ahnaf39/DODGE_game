@@ -2,11 +2,11 @@ import java.awt.*;
 import java.util.Random;
 
 public class Basic_Enemy extends GameObject {
-    private int storeX, storeY;
+    private float storeX, storeY;
     private int count = 0;
     private Random r = new Random();
 
-    public Basic_Enemy(int x, int y, ID id) {
+    public Basic_Enemy(float x, float y, ID id) {
         super(x,y,id);
         storeX = x;
         storeY=y;
@@ -23,7 +23,6 @@ public class Basic_Enemy extends GameObject {
 
 
     public void tick() {
-
         x += velX;
         y += velY;
 

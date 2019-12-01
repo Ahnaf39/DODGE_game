@@ -6,6 +6,7 @@ public class BossEnemy extends GameObject {
     private Random r = new Random();
     public static int PHASE_1 = 0;
     public static int PHASE_2 = 1;
+    public static int PHASE_3 = 2;
 
     private int bossPhase = PHASE_1;
 
@@ -24,8 +25,23 @@ public class BossEnemy extends GameObject {
     }
 
     public void tick() {
-        velX = 0;
-        velY = 0;
+        if (bossPhase < PHASE_3) {
+            velX = 0;
+            velY = 0;
+        } else {
+            x += velX;
+            y += velY;
+
+            if (y <= 0 || y >= Game.HEIGHT-32){
+                //y = storeY; //this y is for spam from one location
+                velY *= -1; //this y is rebound
+            }
+            if (x <= 0 || x >= Game.WIDTH-16){
+                //x = storeX; //this x is for spam from one location
+
+                velX *= -1; //this x is rebound
+            }
+        }
     }
 
     public void render(Graphics g) {

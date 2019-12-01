@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.List;
 
+import static java.lang.Math.*;
+
 public class GameState {
     private Handler handler;
     private int time;
@@ -11,7 +13,9 @@ public class GameState {
     private int duration = 100;
     private BossEnemy boss;
     private Random random = new Random();
-    private boolean bossStarted = false;
+    private boolean phase1Started = false;
+    private boolean phase2Started = false;
+    private int numPhase2Waves = 0;
 
     public GameState(Handler handler){
         this.handler=handler;
@@ -34,7 +38,7 @@ public class GameState {
             Handler.object.clear();
             Handler.initialEnemy = null;
             handler.addObject(new Player(100, 100, ID.Player, handler));
-            handler.addObject(new SmartEnemy(600, 50, ID.SmartEnemy,handler));
+            handler.addObject(new SmartEnemy(600, 50, ID.SmartEnemy));
             HUD.level = 2;
 
         } else if (Game.gameState == Game.STATE.ThirdStage) {
@@ -50,7 +54,7 @@ public class GameState {
             Handler.object.clear();
             Handler.initialEnemy = null;
             handler.addObject(new Player(100, 100, ID.Player, handler));
-            handler.addObject(new SmartEnemy(random.nextInt(Game.WIDTH),random.nextInt(Game.HEIGHT),ID.SmartEnemy,handler));
+            handler.addObject(new SmartEnemy(random.nextInt(Game.WIDTH), random.nextInt(Game.HEIGHT), ID.SmartEnemy));
 
             for (int j = 1; j < 20; j++) {
                 handler.addObject(new BasicEnemySpam(600, 50 * (j / 5), ID.BasicEnemySpam));
@@ -60,7 +64,8 @@ public class GameState {
 
         } else if (Game.gameState == Game.STATE.FifthStage) {
 
-            bossStarted = false;
+            phase1Started = false;
+            phase2Started = false;
             Handler.object.clear();
             Handler.initialEnemy = null;
             boss = new BossEnemy(Game.WIDTH - 80, Game.HEIGHT / 2 - 16, ID.BossEnemy);
@@ -96,10 +101,8 @@ public class GameState {
                 }
                 enemyWave++;
                 System.out.println(enemyWave);
-                System.out.println("items in handler: " + Handler.object.size());
             }
             else if ((Handler.object.size() == 1 && Handler.object.get(0).id == ID.Player) && enemyWave == 10) {
-                System.out.println("reached here");
                 Game.gameState = Game.STATE.FourthStage;
                 GState();
             }
@@ -111,42 +114,13 @@ public class GameState {
             }
         } else if (Game.gameState == Game.STATE.FifthStage) {
             time ++;
-//            System.out.println(bossStarted);
             if (Handler.bossEnemy != null) {
                 if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_1) {
-                    if (((time % (2 * duration)) == 0 && time < 2000) || !bossStarted) {
+                    if (((time % (duration)) == 0 && time < 2000) || !phase1Started) {
                         // TODO figure out velocity and initial placement math
-                        bossStarted = true;
-                        handler.addObject(basicEnemyFromList(new ArrayList<Integer>(
-                                                            Arrays.asList(
-                                                                    (int) Handler.bossEnemy.getX() - 30,
-                                                                    (int) Handler.bossEnemy.getY(),
-                                                                    -5,
-                                                                    0))));
-                        handler.addObject(basicEnemyFromList(new ArrayList<Integer>(
-                                                            Arrays.asList(
-                                                                    (int) Handler.bossEnemy.getX() - 30 + 10,
-                                                                    (int) Handler.bossEnemy.getY() + 17,
-                                                                    -5,
-                                                                    5))));
-                        handler.addObject(basicEnemyFromList(new ArrayList<Integer>(
-                                                            Arrays.asList(
-                                                                    (int) Handler.bossEnemy.getX() - 30 + 10,
-                                                                    (int) Handler.bossEnemy.getY() - 17,
-                                                                    -5,
-                                                                    -5))));
-                        handler.addObject(basicEnemyFromList(new ArrayList<Integer>(
-                                                            Arrays.asList(
-                                                                    (int) Handler.bossEnemy.getX() - 30 + 10 + 10,
-                                                                    (int) Handler.bossEnemy.getY() + 17 + 17,
-                                                                    -5,
-                                                                    5))));
-                        handler.addObject(basicEnemyFromList(new ArrayList<Integer>(
-                                                            Arrays.asList(
-                                                                    (int) Handler.bossEnemy.getX() - 30 + 10 + 10,
-                                                                    (int) Handler.bossEnemy.getY() - 17 - 17,
-                                                                    -5,
-                                                                    -5))));
+                        phase1Started = true;
+                        spawnBossBasicEnemies();
+
                     } else if (Handler.object.size() == 2) {
                         // setting to phase 2
                         System.out.println("setting to phase 2");
@@ -155,16 +129,32 @@ public class GameState {
                     }
 
                 } else if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_2) {
+
                     // TODO add phase 2 minions/mechanics
 //                    System.out.println("set to phase 2; time = " + time);
 
+                    if ((((time % (duration * 0.5)) == 0 && time < 2000) ) || !phase2Started) {
 
-//
-//                    handler.addObject(basicEnemyFromList(new ArrayList<Integer>(Arrays.asList(1,2,4,5))));
-//                    handler.addObject(basicEnemyFromList(new ArrayList<Integer>(Arrays.asList(1,2,4,5))));
-//                    handler.addObject(basicEnemyFromList(new ArrayList<Integer>(Arrays.asList(1,2,4,5))));
-//                    handler.addObject(basicEnemyFromList(new ArrayList<Integer>(Arrays.asList(1,2,4,5))));
-//                    handler.addObject(basicEnemyFromList(new ArrayList<Integer>(Arrays.asList(1,2,4,5))));
+                        spawnBossBasicEnemies();
+
+                        if (((time % (6 * duration)) == 0 && numPhase2Waves < 4) || !phase2Started) {
+                            handler.addObject(smartEnemyFromList(new ArrayList<Integer>(
+                                    Arrays.asList(
+                                            (int) Handler.bossEnemy.getX() - 30,
+                                            (int) Handler.bossEnemy.getY(),
+                                            -5,
+                                            0))));
+                            numPhase2Waves++;
+                        }
+                        phase2Started = true;
+
+                    } else if (Handler.object.size() == 2) {
+                        // setting to phase 2
+                        System.out.println("setting to phase 3");
+                        time = 0;
+                        Handler.bossEnemy.setBossPhase(BossEnemy.PHASE_2);
+                    }
+                } else if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_3) {
 
                 }
             } else {
@@ -191,8 +181,8 @@ public class GameState {
         }
     }
 
-    private List<Integer> getSpawnCoords() {
-        List<Integer> vals = new ArrayList<>();
+    private List<Float> getSpawnCoords() {
+        List<Float> vals = new ArrayList<>();
         int side = random.nextInt(3);
         int x = 0, y = 0;
         int velx = 0, vely = 0;
@@ -234,12 +224,12 @@ public class GameState {
         if (vely > -3 && vely <= 0) vely = -3;
         if (vely < 3 && vely >= 0) vely = 3;
 
-        vals.add(x); vals.add(y); vals.add(velx); vals.add(vely);
+        vals.add((float) x); vals.add((float) y); vals.add((float) velx); vals.add((float) vely);
 
         return vals;
     }
 
-    private Basic_Enemy basicEnemyFromList(List<Integer> enemy_params) {
+    private Basic_Enemy basicEnemyFromList(List<Float> enemy_params) {
         Basic_Enemy enemy = new Basic_Enemy(enemy_params.get(0), enemy_params.get(1), ID.Basic_Enemy);
         enemy.setVelX(enemy_params.get(2));
         enemy.setVelY(enemy_params.get(3));
@@ -248,10 +238,44 @@ public class GameState {
     }
 
     private SmartEnemy smartEnemyFromList(List<Integer> enemy_params) {
-        SmartEnemy enemy = new SmartEnemy(enemy_params.get(0), enemy_params.get(1), ID.SmartEnemy, handler);
+        SmartEnemy enemy = new SmartEnemy(enemy_params.get(0), enemy_params.get(1), ID.SmartEnemy);
         enemy.setVelX(enemy_params.get(2));
         enemy.setVelY(enemy_params.get(3));
 
         return enemy;
+    }
+
+    private void spawnBossBasicEnemies() {
+        int radius = 30;
+        handler.addObject(basicEnemyFromList(new ArrayList<Float>(
+                Arrays.asList(
+                        Handler.bossEnemy.getX() - 30 - radius,
+                        Handler.bossEnemy.getY(),
+                        (float) -0,
+                        (float )0))));
+        handler.addObject(basicEnemyFromList(new ArrayList<Float>(
+                Arrays.asList(
+                        Handler.bossEnemy.getX() - 30 - (float) (radius * cos(PI/6)),
+                        Handler.bossEnemy.getY() + (float) (radius * sin(PI/6)),
+                        (float)-0 ,
+                        (float) 0))));
+        handler.addObject(basicEnemyFromList(new ArrayList<Float>(
+                Arrays.asList(
+                        Handler.bossEnemy.getX() - 30 - (float) (radius * cos(PI/6)),
+                        Handler.bossEnemy.getY() - (float) (radius * sin(PI/6)),
+                        (float) -0,
+                        (float) -0))));
+        handler.addObject(basicEnemyFromList(new ArrayList<Float>(
+                Arrays.asList(
+                        Handler.bossEnemy.getX() - 30 - (float) (radius * cos(PI/3)),
+                        Handler.bossEnemy.getY() + (float) (radius * sin(PI/3)),
+                        (float)-0 ,
+                        (float) 0))));
+        handler.addObject(basicEnemyFromList(new ArrayList<Float>(
+                Arrays.asList(
+                        Handler.bossEnemy.getX() - 30 - (float) (radius * cos(PI/3)),
+                        Handler.bossEnemy.getY() - (float) (radius * sin(PI/3)),
+                        (float) -0,
+                        (float) -0))));
     }
 }

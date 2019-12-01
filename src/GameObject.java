@@ -6,7 +6,7 @@ public abstract class GameObject {
     protected ID id;
     protected float velX, velY;
 
-    public GameObject (int x, int y, ID id){
+    public GameObject (float x, float y, ID id){
         this.x =x;
         this.y=y;
         this.id=id;
@@ -33,7 +33,7 @@ public abstract class GameObject {
     public ID getId(){
         return id;
     }
-    public void setVelX(int velX){
+    public void setVelX(float velX){
         this.velX = velX;
     }
     public float getVelX(){
@@ -44,7 +44,7 @@ public abstract class GameObject {
     public float getVelY(){
         return velY;
     }
-    public void setVelY(int velY){
+    public void setVelY(float velY){
         this.velY = velY;
     }
 
