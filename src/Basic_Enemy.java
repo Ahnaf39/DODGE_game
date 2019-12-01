@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Basic_Enemy extends GameObject {
     private int storeX, storeY;
-    //private int count=0;
+    private int count=0;
     //private Spawn spawn;
 
     Random r = new Random();
@@ -28,15 +28,17 @@ public class Basic_Enemy extends GameObject {
         if (y<=0 || y>=Game.HEIGHT-32){
             //y = storeY; //this y is for spam from one location
             velY*=-1; //this y is rebound
-
+            count++;
         }
         if (x<=0 || x>=Game.WIDTH-16){
             //x = storeX; //this x is for spam from one location
 
             velX*=-1; //this x is rebound
-
-
+            count++;
         }
+    }
+    public int getCount(){
+        return count;
     }
 
     public void render(Graphics g) {
