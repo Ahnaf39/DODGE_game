@@ -3,6 +3,7 @@ import java.util.LinkedList;
 
 public class Handler {
     static LinkedList<GameObject> object = new LinkedList<GameObject>();
+    static Basic_Enemy initialEnemy = null;
 
     public void tick(){
         for (int i=0; i<object.size(); i++){
@@ -14,8 +15,22 @@ public class Handler {
                 }
 
             }
+
+            if (initialEnemy == null) {
+                if (tempObject.id == ID.Basic_Enemy) {
+                    initialEnemy = (Basic_Enemy) tempObject;
+                }
+            }
+
+            if (tempObject.id == ID.Basic_Enemy) {
+                Basic_Enemy check_death = (Basic_Enemy) tempObject;
+                if (check_death.getCount() == 5) {
+                    removeObject(tempObject);
+                }
+            }
         }
     }
+
     public void render (Graphics g){
         for(int i=0; i<object.size();i++){
             GameObject tempObject = object.get(i);
@@ -26,9 +41,11 @@ public class Handler {
             }
         }
     }
+
     public void addObject(GameObject object){
         this.object.add(object);
     }
+
     public void removeObject (GameObject object){
         this.object.remove(object);
     }

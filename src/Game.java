@@ -6,7 +6,7 @@ import java.util.Random;
 public class Game extends Canvas implements Runnable,Serializable{
     private static final long serialVersionUID = 2733916649114610736L;
 
-    public static final int WIDTH = 640, HEIGHT = WIDTH/12*9;
+    public static final int WIDTH = 640, HEIGHT = (WIDTH / 12) * 9;
     private Thread thread;
     private boolean running = false;
 
@@ -19,8 +19,11 @@ public class Game extends Canvas implements Runnable,Serializable{
 
     public enum STATE{
         Menu,
-        FirstStage
-
+        FirstStage,
+        SecondStage,
+        ThirdStage,
+        FourthStage,
+        FifthStage
     }
     public static STATE gameState = STATE.Menu;
 
@@ -35,24 +38,17 @@ public class Game extends Canvas implements Runnable,Serializable{
         hud = new HUD();
         spawner = new Spawn(handler, hud);
         r = new Random();
-        /*for (int i=0; i<50; i++){
-            handler.addObject(new Player(r.nextInt(WIDTH),(r.nextInt(HEIGHT)),ID.Player));
-        }*/
-//        if (gameState == STATE.FirstStage) {
-//            handler.addObject(new Player(100, 100, ID.Player, handler));
-//            for (int i = 0; i < 5; i++) {
-//                for (int j = 1; j < 10; j++) {
-//                    handler.addObject(new Basic_Enemy(600, 50 * j, ID.Basic_Enemy));
-//                }
-//            }
-//        }
     }
+
+
     public synchronized void start(){
         thread = new Thread(this);
         thread.start();
 
         running = true;
     }
+
+
     public synchronized void stop(){
         try{
             thread.join();
@@ -62,6 +58,8 @@ public class Game extends Canvas implements Runnable,Serializable{
             e.printStackTrace();
         }
     }
+
+
     public void run(){
         long lastTime = System.nanoTime();
         double amountofTicks = 60.0;
@@ -91,23 +89,23 @@ public class Game extends Canvas implements Runnable,Serializable{
         }
         stop();
     }
+
+
     private void tick(){
         handler.tick();
-        if(gameState == STATE.FirstStage) {
+        if(gameState != STATE.Menu) {
             hud.tick();
             gstate.tick();
            // spawner.tick();
 
-            /*if (HUD.HEALTH <=0){
-                HUD.HEALTH=100;          Code to go to menu screen after death, need to incorporate the animation code.
-                gameState=STATE.Menu;
-            }*/
         }
-        else if (gameState == STATE.Menu){
+        else {
             menu.tick();
         }
 
     }
+
+
     private void render(){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
@@ -120,16 +118,18 @@ public class Game extends Canvas implements Runnable,Serializable{
         g.fillRect(0,0,WIDTH,HEIGHT);
 
         handler.render(g);
-        if (gameState == STATE.FirstStage) {
+        if (gameState != STATE.Menu) {
             hud.render(g);
             gstate.render(g);
         }
-        else if (gameState == STATE.Menu){
+        else {
             menu.render(g);
         }
         g.dispose();
         bs.show();
     }
+
+
     public static void main(String args[]){
         new Game();
     }

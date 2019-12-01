@@ -5,7 +5,7 @@ public class HUD {
     private int greenValue = 255;
     private int redValue=0;
     private int shouldspawn=0;
-    private int level = 1;
+    public static int level = 1;
 
     public void tick(){
         if (HEALTH<=0){
@@ -23,6 +23,7 @@ public class HUD {
         greenValue = HEALTH*2;
         redValue = 100-HEALTH;
     }
+
     public void render(Graphics g){
         g.setColor(Color.gray);
         g.fillRect(5,5,200,32);//200 is a hardcode and needs to be updated
@@ -31,6 +32,6 @@ public class HUD {
         g.setColor(Color.white);
         g.drawRect(5,5,200,32); //again hardcoded 200
 
-        g.drawString("Level:" + level, 5, 50);
+        g.drawString("Level: " + level, 5, 50);
     }
 }
