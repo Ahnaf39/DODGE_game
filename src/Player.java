@@ -76,7 +76,7 @@ public class Player extends GameObject{
             g.setColor(Color.YELLOW);
             g.fillRoundRect((int)x, (int)y, 32, 32, 20, 20);
             deathEffectCount++;
-        } else if (deathEffectCount >= 1 && deathEffectCount <= 5000) {
+        } else if (deathEffectCount >= 1 && deathEffectCount <= 500) {
 
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
