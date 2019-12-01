@@ -18,9 +18,7 @@ public class Handler {
 
             if (initialEnemy == null) {
                 if (tempObject.id == ID.Basic_Enemy) {
-                    System.out.println("Assigning obj");
                     initialEnemy = (Basic_Enemy) tempObject;
-                    System.out.println(initialEnemy);
                 }
             }
         }

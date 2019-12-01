@@ -20,7 +20,8 @@ public class Game extends Canvas implements Runnable,Serializable{
     public enum STATE{
         Menu,
         FirstStage,
-        SecondStage
+        SecondStage,
+        ThirdStage
     }
     public static STATE gameState = STATE.Menu;
 
