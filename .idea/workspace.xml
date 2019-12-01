@@ -3,13 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="690e19d7-d58b-47c0-ad02-0929f7a685ab" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameAttempt/Handler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameAttempt/Handler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameAttempt/KeyInput.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameAttempt/KeyInput.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameAttempt/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameAttempt/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Handler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
