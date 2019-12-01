@@ -4,6 +4,7 @@ import java.util.LinkedList;
 public class Handler {
     static LinkedList<GameObject> object = new LinkedList<GameObject>();
     static Basic_Enemy initialEnemy = null;
+    static BossEnemy bossEnemy = null;
 
     public void tick(){
         for (int i=0; i<object.size(); i++){
@@ -19,6 +20,12 @@ public class Handler {
             if (initialEnemy == null) {
                 if (tempObject.id == ID.Basic_Enemy) {
                     initialEnemy = (Basic_Enemy) tempObject;
+                }
+            }
+
+            if (bossEnemy == null) {
+                if (tempObject.id == ID.BossEnemy) {
+                    bossEnemy = (BossEnemy) tempObject;
                 }
             }
 
