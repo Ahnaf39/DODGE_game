@@ -3,10 +3,11 @@ import java.util.Random;
 
 public class Basic_Enemy extends GameObject {
     private int storeX, storeY;
-    private int count=0;
+    private int count = 0;
     //private Spawn spawn;
 
     Random r = new Random();
+
     public Basic_Enemy(int x, int y, ID id) {
         super(x,y,id);
         storeX = x;
@@ -16,10 +17,13 @@ public class Basic_Enemy extends GameObject {
 
     }
 
+
     public Rectangle getBounds(){
         return new Rectangle((int)x,(int)y,16,16);//16 is from width and height below
         // needs better implementation and less hardcody
     }
+
+
     public void tick() {
 
         x+=velX;
@@ -37,9 +41,12 @@ public class Basic_Enemy extends GameObject {
             count++;
         }
     }
+
+
     public int getCount(){
         return count;
     }
+
 
     public void render(Graphics g) {
         g.setColor(Color.red);
