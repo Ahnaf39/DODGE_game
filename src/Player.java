@@ -46,7 +46,7 @@ public class Player extends GameObject{
     private void collision(){
         for(int i=0; i<handler.object.size();i++){
             GameObject tempObject = handler.object.get(i);
-            if (tempObject.getId()==ID.Basic_Enemy||tempObject.getId()==ID.SmartEnemy){
+            if (tempObject.getId()==ID.Basic_Enemy||tempObject.getId()==ID.SmartEnemy||tempObject.getId()==ID.BasicEnemySpam){
                 if(getBounds().intersects(tempObject.getBounds())){
                     HUD.HEALTH--;
                 }
