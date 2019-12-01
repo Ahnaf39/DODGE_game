@@ -6,7 +6,7 @@ import java.util.Random;
 public class Game extends Canvas implements Runnable,Serializable{
     private static final long serialVersionUID = 2733916649114610736L;
 
-    public static final int WIDTH = 640, HEIGHT = WIDTH/12*9;
+    public static final int WIDTH = 640, HEIGHT = (WIDTH / 12) * 9;
     private Thread thread;
     private boolean running = false;
 

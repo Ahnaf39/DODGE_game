@@ -1,9 +1,13 @@
 import java.awt.*;
+import java.util.Random;
+
 public class GameState {
     private Handler handler;
-    private int time1 =0;
-    private int time2 =0;
+    private int time1 = 0;
+    private int time2 = 0;
+    private int time3 = 0;
     private int duration = 100;
+    private Random random = new Random();
 
     public GameState(Handler handler){
         this.handler=handler;
@@ -45,16 +49,28 @@ public class GameState {
         }
         if(Game.gameState==Game.STATE.SecondStage){
             time2++;
-            if(time2>=1000){
+            if(time2>=100){
                 Game.gameState=Game.STATE.ThirdStage;
                 GState();
             }
+        }
+        if(Game.gameState==Game.STATE.ThirdStage){
+            time3++;
+            if (Handler.object.size() == 1) {
+                System.out.println("you won");
+            } else if (time3 % (2 * duration) == 0) {
+                handler.addObject(new Basic_Enemy(Math.abs(random.nextInt(Game.WIDTH)),
+                                                  Math.abs(random.nextInt(Game.HEIGHT)),
+                                                  ID.Basic_Enemy));
+            }
+
+
         }
     }
 
     public void render(Graphics g){
         if (Game.gameState == Game.STATE.FirstStage) {
-            if (time1<duration) {
+            if (time1 < duration) {
                 Font fnt = new Font("helvetica", 1, 32);
                 g.setFont(fnt);
                 g.setColor(Color.white);
@@ -62,7 +78,7 @@ public class GameState {
             }
         }
         if (Game.gameState == Game.STATE.SecondStage) {
-            if (time2<duration) {
+            if (time2 < duration) {
                 Font fnt = new Font("helvetica", 1, 28);
                 g.setFont(fnt);
                 g.setColor(Color.white);
