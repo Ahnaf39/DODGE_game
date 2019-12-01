@@ -1,6 +1,5 @@
 import java.awt.*;
 public class GameState {
-    private Game game;
     private Handler handler;
     private int time =0;
     private int duration = 100;
@@ -11,11 +10,7 @@ public class GameState {
         if (Game.gameState == Game.STATE.Menu) {
             Game.gameState = Game.STATE.FirstStage;
             handler.addObject(new Player(100, 100, ID.Player, handler));
-            /*for (int i = 0; i < 5; i++) {
-                for (int j = 1; j < 10; j++) {
-                    handler.addObject(new Basic_Enemy(600, 50 * j, ID.Basic_Enemy));
-                }
-            }*/
+
             handler.addObject(new Basic_Enemy(600, 50, ID.Basic_Enemy));
             handler.addObject(new SmartEnemy(600,400,ID.SmartEnemy,handler));
             handler.addObject(new BossEnemy(600, 100, ID.BossEnemy));

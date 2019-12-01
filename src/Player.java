@@ -96,6 +96,9 @@ public class Player extends GameObject{
         } else {
             g.setColor(Color.black);
             g.fillRoundRect((int)x,(int)y,32,32,10,10);
+            Game.gameState = Game.STATE.Menu;
+            Handler.object.clear();
+            HUD.HEALTH = 100;
         }
     }
 }
