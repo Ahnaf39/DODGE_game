@@ -78,110 +78,26 @@ public class GameState {
     }
 
     public void tick(){
-        if (Game.gameState == Game.STATE.FirstStage) {
-            time++;
-            if (Handler.initialEnemy != null) {
-                if (Handler.initialEnemy.getCount() == 5) {
-                    Game.gameState = Game.STATE.SecondStage;
-                    GState();
-                }
-            }
-        } else if (Game.gameState == Game.STATE.SecondStage){
-            time++;
-            if(time >= 1000){
-                Game.gameState = Game.STATE.ThirdStage;
-                GState();
-            }
-        } else if (Game.gameState == Game.STATE.ThirdStage){
-            time++;
-            if ((time % (2 * duration) == 0 && enemyWave < 10) || enemyWave == 0) {
-                for (int k = 1; k <= enemyWave + 1; k++) {
-                    handler.addObject(basicEnemyFromList(getSpawnCoords()));
-                }
-                enemyWave++;
-            }
-            else if ((Handler.object.size() == 1 && Handler.object.get(0).id == ID.Player) && enemyWave == 10) {
-                Game.gameState = Game.STATE.FourthStage;
-                GState();
-            }
-        } else if (Game.gameState == Game.STATE.FourthStage){
-            time++;
-            boolean isSmartPresent = false;
-            for (GameObject temp:
-                 Handler.object) {
-                if (temp.id == ID.SmartEnemy) {
-                    isSmartPresent = true;
-                }
-            }
-            if (time >= 2000 || !isSmartPresent){
-                Game.gameState = Game.STATE.FifthStage;
-                GState();
-            }
-        } else if (Game.gameState == Game.STATE.FifthStage) {
-            time ++;
-            if (Handler.bossEnemy != null) {
-                if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_1) {
-                    if (((time % (duration)) == 0 && time < 2000) || !phase1Started) {
-                        phase1Started = true;
-                        spawnBossBasicEnemies();
+        switch (Game.gameState) {
+            case FirstStage:
+                firstStageLogic();
+                break;
 
-                    } else if (Handler.object.size() == 2) {
-                        time = 0;
-                        Handler.bossEnemy.setBossPhase(BossEnemy.PHASE_2);
-                    }
+            case SecondStage:
+                secondStageLogic();
+                break;
 
-                } else if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_2) {
+            case ThirdStage:
+                thirdStageLogic();
+                break;
 
-                    if ((((time % (duration * 0.5)) == 0 && time < 2000) ) || !phase2Started) {
+            case FourthStage:
+                fourthStageLogic();
+                break;
 
-                        spawnBossBasicEnemies();
-
-                        if (((time % (6 * duration)) == 0 && numPhase2Waves < 4) || !phase2Started) {
-                            handler.addObject(smartEnemyFromList(new ArrayList<Integer>(
-                                    Arrays.asList(
-                                            (int) Handler.bossEnemy.getX() - 30,
-                                            (int) Handler.bossEnemy.getY(),
-                                            -5,
-                                            0))));
-                            numPhase2Waves++;
-                        }
-                        phase2Started = true;
-
-                    } else if (Handler.object.size() == 2) {
-                        // setting to phase 2
-                        time = 0;
-                        numPhase2Waves = 0;
-                        Handler.bossEnemy.setBossPhase(BossEnemy.PHASE_3);
-                    }
-                } else if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_3) {
-                    Handler.bossEnemy.setVelX(0);
-                    if (Handler.bossEnemy.getVelY() == 0) {
-                        Handler.bossEnemy.setVelY(-4);
-                    }
-
-                    if ((((time % (duration * 3)) == 0 && time < 2000) ) || !phase3Started) {
-
-                        spawnBossBasicEnemies();
-
-                        if (((time % (6 * duration)) == 0 && numPhase2Waves < 4) || !phase3Started) {
-                            handler.addObject(smartEnemyFromList(new ArrayList<Integer>(
-                                    Arrays.asList(
-                                            (int) Handler.bossEnemy.getX() - 30,
-                                            (int) Handler.bossEnemy.getY(),
-                                            -5,
-                                            0))));
-                            numPhase2Waves++;
-                        }
-                        phase3Started = true;
-
-                    } else if (Handler.object.size() == 2) {
-                        time = 0;
-                        Handler.bossEnemy.setBossPhase(BossEnemy.PHASE_3);
-                    }
-                }
-            } else {
-//                System.err.println("Should not be here. Kill program");
-            }
+            case FifthStage:
+                fifthStageLogic();
+                break;
         }
     }
 
@@ -200,6 +116,121 @@ public class GameState {
                 g.setColor(Color.white);
                 g.drawString("Press SPACE to do something super cool", 50, 50);
             }
+        }
+    }
+
+    private void firstStageLogic() {
+        time++;
+        if (Handler.initialEnemy != null) {
+            if (Handler.initialEnemy.getCount() == 5) {
+                Game.gameState = Game.STATE.SecondStage;
+                GState();
+            }
+        }
+    }
+
+    private void secondStageLogic() {
+        time++;
+        if(time >= 1000){
+            Game.gameState = Game.STATE.ThirdStage;
+            GState();
+        }
+    }
+
+    private void thirdStageLogic() {
+        time++;
+        if ((time % (2 * duration) == 0 && enemyWave < 10) || enemyWave == 0) {
+            for (int k = 1; k <= enemyWave + 1; k++) {
+                handler.addObject(basicEnemyFromList(getSpawnCoords()));
+            }
+            enemyWave++;
+        }
+        else if ((Handler.object.size() == 1 && Handler.object.get(0).id == ID.Player) && enemyWave == 10) {
+            Game.gameState = Game.STATE.FourthStage;
+            GState();
+        }
+    }
+
+    private void fourthStageLogic() {
+        time++;
+        boolean isSmartPresent = false;
+        for (GameObject temp:
+                Handler.object) {
+            if (temp.id == ID.SmartEnemy) {
+                isSmartPresent = true;
+                break;
+            }
+        }
+        if (time >= 2000 || !isSmartPresent){
+            Game.gameState = Game.STATE.FifthStage;
+            GState();
+        }
+    }
+
+    private void fifthStageLogic() {
+        time ++;
+        if (Handler.bossEnemy != null) {
+            if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_1) {
+                if (((time % (duration)) == 0 && time < 2000) || !phase1Started) {
+                    phase1Started = true;
+                    spawnBossBasicEnemies();
+
+                } else if (Handler.object.size() == 2) {
+                    time = 0;
+                    Handler.bossEnemy.setBossPhase(BossEnemy.PHASE_2);
+                }
+
+            } else if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_2) {
+
+                if ((((time % (duration * 0.5)) == 0 && time < 2000) ) || !phase2Started) {
+
+                    spawnBossBasicEnemies();
+
+                    if (((time % (6 * duration)) == 0 && numPhase2Waves < 4) || !phase2Started) {
+                        handler.addObject(smartEnemyFromList(new ArrayList<Integer>(
+                                Arrays.asList(
+                                        (int) Handler.bossEnemy.getX() - 30,
+                                        (int) Handler.bossEnemy.getY(),
+                                        -5,
+                                        0))));
+                        numPhase2Waves++;
+                    }
+                    phase2Started = true;
+
+                } else if (Handler.object.size() == 2) {
+                    // setting to phase 2
+                    time = 0;
+                    numPhase2Waves = 0;
+                    Handler.bossEnemy.setBossPhase(BossEnemy.PHASE_3);
+                }
+            } else if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_3) {
+                Handler.bossEnemy.setVelX(0);
+                if (Handler.bossEnemy.getVelY() == 0) {
+                    Handler.bossEnemy.setVelY(-4);
+                }
+
+                if ((((time % (duration * 3)) == 0 && time < 2000) ) || !phase3Started) {
+
+                    spawnBossBasicEnemies();
+
+                    if (((time % (6 * duration)) == 0 && numPhase2Waves < 4) || !phase3Started) {
+                        handler.addObject(smartEnemyFromList(new ArrayList<Integer>(
+                                Arrays.asList(
+                                        (int) Handler.bossEnemy.getX() - 30,
+                                        (int) Handler.bossEnemy.getY(),
+                                        -5,
+                                        0))));
+                        numPhase2Waves++;
+                    }
+                    phase3Started = true;
+
+                } else if (Handler.object.size() == 2) {
+                    time = 0;
+                    Handler.bossEnemy.setBossPhase(BossEnemy.PHASE_3);
+                }
+            }
+        } else {
+//                System.err.println("Should not be here. Kill program");
         }
     }
 

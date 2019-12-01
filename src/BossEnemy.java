@@ -2,18 +2,19 @@ import java.awt.*;
 import java.util.Random;
 
 public class BossEnemy extends GameObject {
-    private int storeX, storeY;
+
     private Random r = new Random();
     public static int PHASE_1 = 0;
     public static int PHASE_2 = 1;
     public static int PHASE_3 = 2;
+    public static int PHASE_DMG = 99;
+    public boolean isVulnerable = false;
+    public int bossHeath = 100;
 
     private int bossPhase = PHASE_1;
 
     public BossEnemy(int x, int y, ID id) {
         super(x,y,id);
-        storeX = x;
-        storeY=y;
         velX = -1 * (r.nextInt(9) + 1);
         velY = r.nextInt(5);
     }
@@ -33,12 +34,9 @@ public class BossEnemy extends GameObject {
             y += velY;
 
             if (y <= 0 || y >= Game.HEIGHT-32){
-                //y = storeY; //this y is for spam from one location
                 velY *= -1; //this y is rebound
             }
             if (x <= 0 || x >= Game.WIDTH-16){
-                //x = storeX; //this x is for spam from one location
-
                 velX *= -1; //this x is rebound
             }
         }
@@ -46,10 +44,10 @@ public class BossEnemy extends GameObject {
 
     public void render(Graphics g) {
         g.setColor(Color.magenta);
-        int[] xpoints0 = {(int) x, (int) x,(int) x- 12};
+        int[] xpoints0 = {(int) x,      (int) x,      (int) x - 12};
         int[] ypoints0 = {(int) y + 20, (int) y + 30, (int) y + 25};
         int[] xpoints1 = {(int) x + 15, (int) x + 31, (int) x + 23};
-        int[] ypoints1 = {(int) y, (int) y, (int) y - 10};
+        int[] ypoints1 = {(int) y,      (int) y,      (int) y - 10};
         int[] xpoints2 = {(int) x + 15, (int) x + 31, (int) x + 23};
         int[] ypoints2 = {(int) y + 50, (int) y + 50, (int) y + 60};
         int[] xpoints3 = {(int) x + 50, (int) x + 50, (int) x + 62};
@@ -67,5 +65,13 @@ public class BossEnemy extends GameObject {
 
     public void setBossPhase(int bossPhase) {
         this.bossPhase = bossPhase;
+    }
+
+    public boolean getIsVulnerable() {
+        return isVulnerable;
+    }
+
+    public void setIsVulnerable(boolean isVulnerable) {
+        this.isVulnerable = isVulnerable;
     }
 }
