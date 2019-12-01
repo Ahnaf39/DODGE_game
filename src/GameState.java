@@ -6,6 +6,8 @@ public class GameState {
     private int time1 = 0;
     private int time2 = 0;
     private int time3 = 0;
+    private int time4 = 0;
+    private int enemycount = 0;
     private int duration = 100;
     private Random random = new Random();
 
@@ -34,6 +36,26 @@ public class GameState {
             handler.addObject(new Player(100, 100, ID.Player, handler));
             handler.addObject(new Basic_Enemy(600, 50, ID.Basic_Enemy));
             HUD.level = 3;
+            enemycount++;
+        }
+        if (Game.gameState == Game.STATE.FourthStage) {
+            Handler.object.clear();
+            Handler.initialEnemy = null;
+            handler.addObject(new Player(100, 100, ID.Player, handler));
+            handler.addObject(new SmartEnemy(random.nextInt(Game.WIDTH),random.nextInt(Game.HEIGHT),ID.SmartEnemy,handler));
+            for (int i = 0; i < 5; i++) {
+                for (int j = 1; j < 5; j++) {
+                    handler.addObject(new BasicEnemySpam(600, 50 * j, ID.BasicEnemySpam));
+                }
+            }
+            HUD.level = 4;
+        }
+        if (Game.gameState == Game.STATE.FifthStage) {
+            Handler.object.clear();
+            Handler.initialEnemy = null;
+            handler.addObject(new Player(100, 100, ID.Player, handler));
+            handler.addObject(new SmartEnemy(random.nextInt(Game.WIDTH),random.nextInt(Game.HEIGHT),ID.SmartEnemy,handler));
+            HUD.level = 5;
         }
     }
 
@@ -49,22 +71,32 @@ public class GameState {
         }
         if(Game.gameState==Game.STATE.SecondStage){
             time2++;
-            if(time2>=100){
+            if(time2>=1000){
                 Game.gameState=Game.STATE.ThirdStage;
                 GState();
             }
         }
         if(Game.gameState==Game.STATE.ThirdStage){
             time3++;
-            if (Handler.object.size() == 1) {
-                System.out.println("you won");
-            } else if (time3 % (2 * duration) == 0) {
-                handler.addObject(new Basic_Enemy(Math.abs(random.nextInt(Game.WIDTH)),
-                                                  Math.abs(random.nextInt(Game.HEIGHT)),
-                                                  ID.Basic_Enemy));
+            if (time3 % (2 * duration) == 0 && enemycount<=10) {
+                for (int k=0;k<enemycount;k++) {
+                    handler.addObject(new Basic_Enemy(Math.abs(random.nextInt(Game.WIDTH)),
+                            Math.abs(random.nextInt(Game.HEIGHT)),
+                            ID.Basic_Enemy));
+                }
+                enemycount++;
             }
-
-
+            else if (Handler.object.size() == 1 && enemycount>=10) {
+                Game.gameState=Game.STATE.FourthStage;
+                GState();
+            }
+        }
+        if(Game.gameState==Game.STATE.FourthStage){
+            time4++;
+            if(time4>=2000){
+                Game.gameState=Game.STATE.FifthStage;
+                GState();
+            }
         }
     }
 

@@ -1,19 +1,19 @@
 import java.awt.*;
 import java.util.Random;
 
-public class Basic_Enemy extends GameObject {
+public class BasicEnemySpam extends GameObject {
     private int storeX, storeY;
-    private int count = 0;
+    //private int count = 0;
     //private Spawn spawn;
 
     Random r = new Random();
 
-    public Basic_Enemy(int x, int y, ID id) {
+    public BasicEnemySpam(int x, int y, ID id) {
         super(x,y,id);
         storeX = x;
         storeY=y;
-        velX =-1*(r.nextInt(9)+3);
-        velY = r.nextInt(5)+3;
+        velX =-1*(r.nextInt(9)+1);
+        velY = r.nextInt(5);
 
     }
 
@@ -29,23 +29,16 @@ public class Basic_Enemy extends GameObject {
         x+=velX;
         y+=velY;
 
-        if (y<=0 || y>=Game.HEIGHT-32){
-            //y = storeY; //this y is for spam from one location
-            velY*=-1; //this y is rebound
-            count++;
-        }
-        if (x<=0 || x>=Game.WIDTH-16){
-            //x = storeX; //this x is for spam from one location
-
-            velX*=-1; //this x is rebound
-            count++;
+        if (y<=0 || y>=Game.HEIGHT || x<=0 || x>=Game.WIDTH){
+            x = storeX;
+            y = storeY;
         }
     }
 
 
-    public int getCount(){
-        return count;
-    }
+    //public int getCount(){
+        //return count;
+   // }
 
 
     public void render(Graphics g) {

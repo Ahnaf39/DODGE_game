@@ -21,7 +21,9 @@ public class Game extends Canvas implements Runnable,Serializable{
         Menu,
         FirstStage,
         SecondStage,
-        ThirdStage
+        ThirdStage,
+        FourthStage,
+        FifthStage
     }
     public static STATE gameState = STATE.Menu;
 
