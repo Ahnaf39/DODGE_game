@@ -38,7 +38,6 @@ public class HUD {
             g.setColor(Color.white);
             g.drawRect(5, 5, 200, 32); //again hardcoded 200
         }
-
         g.drawString("Level: " + level, 5, 50);
     }
 }

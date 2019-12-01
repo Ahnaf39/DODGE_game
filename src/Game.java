@@ -13,6 +13,7 @@ public class Game extends Canvas implements Runnable,Serializable{
     private Random r;
     private Handler handler;
     private HUD hud;
+    private Boss_HUD boss_hud;
     private Spawn spawner;
     private Menu menu;
     private GameState gstate;
@@ -36,6 +37,7 @@ public class Game extends Canvas implements Runnable,Serializable{
         new Window(WIDTH,HEIGHT,"Aoi no Sora",this);
 
         hud = new HUD();
+        boss_hud = new Boss_HUD();
         spawner = new Spawn(handler, hud);
         r = new Random();
     }
@@ -97,6 +99,9 @@ public class Game extends Canvas implements Runnable,Serializable{
             hud.tick();
             gstate.tick();
            // spawner.tick();
+            if(gameState==STATE.FifthStage){
+                boss_hud.tick();
+            }
 
         }
         else {
@@ -121,6 +126,9 @@ public class Game extends Canvas implements Runnable,Serializable{
         if (gameState != STATE.Menu) {
             hud.render(g);
             gstate.render(g);
+            if(gameState==STATE.FifthStage){
+                boss_hud.render(g);
+            }
         }
         else {
             menu.render(g);

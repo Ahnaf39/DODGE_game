@@ -20,7 +20,7 @@ public class BossEnemy extends GameObject {
     }
 
     public Rectangle getBounds(){
-        return new Rectangle((int)x,(int)y,16,16);
+        return new Rectangle((int)x,(int)y,48,48);
         //16 is from width and height below
         // needs better implementation and less hardcody
     }
@@ -41,6 +41,8 @@ public class BossEnemy extends GameObject {
             }
         }
     }
+
+
 
     public void render(Graphics g) {
         g.setColor(Color.magenta);
