@@ -29,7 +29,7 @@ public class HUD {
             Font fnt = new Font("helvetica", 1, 15);
             g.setFont(fnt);
             g.setColor(Color.gray);
-            g.drawString("Don't get hit. You have only one chance", 5, 25);
+            g.drawString("Don't get hit. You only have one chance", 5, 25);
         } else {
             g.setColor(Color.gray);
             g.fillRect(5, 5, 200, 32);//200 is a hardcode and needs to be updated

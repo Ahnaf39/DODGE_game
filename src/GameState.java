@@ -121,6 +121,12 @@ public class GameState {
                 g.setColor(Color.white);
                 g.drawString("Press SPACE to do something super cool", 50, 50);
             }
+        } else if (Game.gameState == Game.STATE.Victory) {
+            Font fnt = new Font("helvetica", 1, 72);
+            g.setFont(fnt);
+            g.setColor(Color.white);
+            g.drawString("YOU WIN!!", 120, 240);
+
         }
     }
 
@@ -274,6 +280,7 @@ public class GameState {
         if (time > 100) {
             time = 0;
             Handler.bossEnemy.setIsVulnerable(false);
+
             switch (prev) {
                 case PHASE_1:
                     Handler.bossEnemy.setBossPhase(BossEnemy.PHASES.PHASE_2);

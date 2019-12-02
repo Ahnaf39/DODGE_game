@@ -60,7 +60,12 @@ public class Player extends GameObject{
                 if(getBounds().intersects(tempObject.getBounds())){
                     if (Handler.bossEnemy != null) {
                         if (Handler.bossEnemy.getIsVulnerable()) {
-                            Boss_HUD.HEALTH--;
+                            Boss_HUD.HEALTH-=100;
+                            if (Boss_HUD.HEALTH == 0){
+                                Handler.object.clear();
+                                Handler.initialEnemy = null;
+                                Game.gameState = Game.STATE.Victory;
+                            }
                         } else {
                             if (!Menu.isHardMode) {
                                 HUD.HEALTH--;

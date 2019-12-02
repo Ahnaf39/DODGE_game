@@ -22,28 +22,12 @@ public class Menu extends MouseAdapter{
             gameState.GState();
 
         }
-        else if (mouseOver(mx,my,0,10,100,64)){
-            Game.gameState = Game.STATE.FirstStage;
-            gameState.GState();
-        }
-        else if (mouseOver(mx,my,0,80,100,64)){
-            Game.gameState = Game.STATE.SecondStage;
-            gameState.GState();
-        }
-        else if (mouseOver(mx,my,0,150,100,64)){
-            Game.gameState = Game.STATE.ThirdStage;
-            gameState.GState();
-        }
-        else if (mouseOver(mx,my,0,220,100,64)){
-            Game.gameState = Game.STATE.FourthStage;
-            gameState.GState();
-        }
-        else if (mouseOver(mx,my,0,300,100,64)){
-            Game.gameState = Game.STATE.FifthStage;
-            gameState.GState();
+        else if(mouseOver(mx,my,100,200,100,64)){ //xywidthheight taken from Start rectangle. Need better code
+            System.exit(1);
+
         }
 
-        else if (mouseOver(mx,my,300,140,180,35)){
+        if (mouseOver(mx,my,300,140,180,35)){
             isHardMode = false;
         }
 
@@ -75,19 +59,6 @@ public class Menu extends MouseAdapter{
         g.drawRect(100,100,100,64);
         g.drawString("Quit",110,240);
         g.drawRect(100,200,100,64);
-
-        Font fnt1 = new Font("helvetica", 1, 24);
-        g.setFont(fnt1);
-        g.drawString("Level 1",10,40);
-        g.drawRect(0,10,100,64);
-        g.drawString("Level 2",10,120);
-        g.drawRect(0,80,100,64);
-        g.drawString("Level 3",10,200);
-        g.drawRect(0,150,100,64);
-        g.drawString("Level 4",10,280);
-        g.drawRect(0,220,100,64);
-        g.drawString("Level 5",10,360);
-        g.drawRect(0,300,100,64);
 
         g.drawString("Easy Mode",345,165);
         g.drawOval(300,140,30,30);

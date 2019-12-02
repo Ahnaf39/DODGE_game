@@ -24,7 +24,8 @@ public class Game extends Canvas implements Runnable,Serializable{
         SecondStage,
         ThirdStage,
         FourthStage,
-        FifthStage
+        FifthStage,
+        Victory
     }
     public static STATE gameState = STATE.Menu;
 
@@ -96,7 +97,9 @@ public class Game extends Canvas implements Runnable,Serializable{
     private void tick(){
         handler.tick();
         if(gameState != STATE.Menu) {
-            hud.tick();
+            if (gameState != STATE.Victory) {
+                hud.tick();
+            }
             gstate.tick();
            // spawner.tick();
             if(gameState==STATE.FifthStage){
@@ -123,8 +126,10 @@ public class Game extends Canvas implements Runnable,Serializable{
         g.fillRect(0,0,WIDTH,HEIGHT);
 
         handler.render(g);
-        if (gameState != STATE.Menu) {
-            hud.render(g);
+        if (gameState != STATE.Menu ) {
+            if (gameState != STATE.Victory) {
+                hud.render(g);
+            }
             gstate.render(g);
             if(gameState==STATE.FifthStage){
                 boss_hud.render(g);
