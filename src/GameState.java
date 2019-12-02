@@ -17,6 +17,7 @@ public class GameState {
     private boolean phase2Started = false;
     private boolean phase3Started = false;
     private int numPhase2Waves = 0;
+    private BossEnemy.PHASES prev = BossEnemy.PHASES.PHASE_1;
 
     public GameState(Handler handler){
         this.handler=handler;
@@ -70,7 +71,7 @@ public class GameState {
             Handler.object.clear();
             Handler.initialEnemy = null;
             boss = new BossEnemy(Game.WIDTH - 80, Game.HEIGHT / 2 - 16, ID.BossEnemy);
-            boss.setBossPhase(BossEnemy.PHASE_1);
+            boss.setBossPhase(BossEnemy.PHASES.PHASE_1);
             handler.addObject(new Player(100, 100, ID.Player, handler));
             handler.addObject(boss);
             HUD.level = 5;
@@ -97,6 +98,10 @@ public class GameState {
 
             case FifthStage:
                 fifthStageLogic();
+                break;
+
+            default:
+                // do nothing
                 break;
         }
     }
@@ -170,68 +175,120 @@ public class GameState {
     private void fifthStageLogic() {
         time ++;
         if (Handler.bossEnemy != null) {
-            if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_1) {
-                if (((time % (duration)) == 0 && time < 2000) || !phase1Started) {
-                    phase1Started = true;
-                    spawnBossBasicEnemies();
+            switch (Handler.bossEnemy.getBossPhase()) {
+                case PHASE_1:
+                    bossPhase1Logic();
+                    break;
 
-                } else if (Handler.object.size() == 2) {
-                    time = 0;
-                    Handler.bossEnemy.setBossPhase(BossEnemy.PHASE_2);
-                }
+                case PHASE_2:
+                    bossPhase2Logic();
+                    break;
 
-            } else if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_2) {
+                case PHASE_3:
+                    bossPhase3Logic();
+                    break;
 
-                if ((((time % (duration * 0.5)) == 0 && time < 2000) ) || !phase2Started) {
+                case PHASE_DMG:
+                    bossPhaseDMGLogic();
+                    break;
 
-                    spawnBossBasicEnemies();
-
-                    if (((time % (6 * duration)) == 0 && numPhase2Waves < 4) || !phase2Started) {
-                        handler.addObject(smartEnemyFromList(new ArrayList<Integer>(
-                                Arrays.asList(
-                                        (int) Handler.bossEnemy.getX() - 30,
-                                        (int) Handler.bossEnemy.getY(),
-                                        -5,
-                                        0))));
-                        numPhase2Waves++;
-                    }
-                    phase2Started = true;
-
-                } else if (Handler.object.size() == 2) {
-                    // setting to phase 2
-                    time = 0;
-                    numPhase2Waves = 0;
-                    Handler.bossEnemy.setBossPhase(BossEnemy.PHASE_3);
-                }
-            } else if (Handler.bossEnemy.getBossPhase() == BossEnemy.PHASE_3) {
-                Handler.bossEnemy.setVelX(0);
-                if (Handler.bossEnemy.getVelY() == 0) {
-                    Handler.bossEnemy.setVelY(-4);
-                }
-
-                if ((((time % (duration * 3)) == 0 && time < 2000) ) || !phase3Started) {
-
-                    spawnBossBasicEnemies();
-
-                    if (((time % (6 * duration)) == 0 && numPhase2Waves < 4) || !phase3Started) {
-                        handler.addObject(smartEnemyFromList(new ArrayList<Integer>(
-                                Arrays.asList(
-                                        (int) Handler.bossEnemy.getX() - 30,
-                                        (int) Handler.bossEnemy.getY(),
-                                        -5,
-                                        0))));
-                        numPhase2Waves++;
-                    }
-                    phase3Started = true;
-
-                } else if (Handler.object.size() == 2) {
-                    time = 0;
-                    Handler.bossEnemy.setBossPhase(BossEnemy.PHASE_3);
-                }
+                default:
+                    bossPhase1Logic();
+                    break;
             }
         } else {
 //                System.err.println("Should not be here. Kill program");
         }
+    }
+
+    private void bossPhase1Logic() {
+        if (((time % (duration)) == 0 && time < 2000) || !phase1Started) {
+            phase1Started = true;
+            spawnBossBasicEnemies();
+
+        } else if (Handler.object.size() == 2) {
+            time = 0;
+            prev = BossEnemy.PHASES.PHASE_1;
+            Handler.bossEnemy.setIsVulnerable(true);
+            Handler.bossEnemy.setBossPhase(BossEnemy.PHASES.PHASE_DMG);
+        }
+    }
+
+    private void bossPhase2Logic() {
+        if ((((time % (duration * 0.5)) == 0 && time < 2000) ) || !phase2Started) {
+
+            spawnBossBasicEnemies();
+
+            if (((time % (6 * duration)) == 0 && numPhase2Waves < 4) || !phase2Started) {
+                handler.addObject(smartEnemyFromList(new ArrayList<Integer>(
+                        Arrays.asList(
+                                (int) Handler.bossEnemy.getX() - 30,
+                                (int) Handler.bossEnemy.getY(),
+                                -5,
+                                0))));
+                numPhase2Waves++;
+            }
+            phase2Started = true;
+
+        } else if (Handler.object.size() == 2) {
+            // setting to phase 2
+            time = 0;
+            numPhase2Waves = 0;
+            prev = BossEnemy.PHASES.PHASE_2;
+            Handler.bossEnemy.setIsVulnerable(true);
+            Handler.bossEnemy.setBossPhase(BossEnemy.PHASES.PHASE_DMG);
+        }
+    }
+
+    private void bossPhase3Logic() {
+        Handler.bossEnemy.setVelX(0);
+        if (Handler.bossEnemy.getVelY() == 0) {
+            Handler.bossEnemy.setVelY(-4);
+        }
+
+        if ((((time % (duration * 3)) == 0 && time < 2000) ) || !phase3Started) {
+
+            spawnBossBasicEnemies();
+
+            if (((time % (6 * duration)) == 0 && numPhase2Waves < 4) || !phase3Started) {
+                handler.addObject(smartEnemyFromList(new ArrayList<Integer>(
+                        Arrays.asList(
+                                (int) Handler.bossEnemy.getX() - 30,
+                                (int) Handler.bossEnemy.getY(),
+                                -5,
+                                0))));
+                numPhase2Waves++;
+            }
+            phase3Started = true;
+
+        } else if (Handler.object.size() == 2) {
+            time = 0;
+            prev = BossEnemy.PHASES.PHASE_3;
+            Handler.bossEnemy.setIsVulnerable(true);
+            Handler.bossEnemy.setBossPhase(BossEnemy.PHASES.PHASE_DMG);
+        }
+    }
+
+    private void bossPhaseDMGLogic() {
+        time++;
+        if (time > 100) {
+            time = 0;
+            Handler.bossEnemy.setIsVulnerable(false);
+            switch (prev) {
+                case PHASE_1:
+                    Handler.bossEnemy.setBossPhase(BossEnemy.PHASES.PHASE_2);
+                    break;
+
+                case PHASE_2:
+                    Handler.bossEnemy.setBossPhase(BossEnemy.PHASES.PHASE_3);
+                    break;
+
+                case PHASE_3:
+                    Handler.bossEnemy.setBossPhase(BossEnemy.PHASES.PHASE_1);
+                    break;
+            }
+        }
+
     }
 
     private List<Float> getSpawnCoords() {

@@ -48,7 +48,7 @@ public class Player extends GameObject{
     private void collision(){
         for(int i = 0; i < handler.object.size(); i++){
             GameObject tempObject = handler.object.get(i);
-            if (tempObject.getId() == ID.Basic_Enemy || tempObject.getId() == ID.SmartEnemy || tempObject.getId() == ID.BasicEnemySpam){
+            if (tempObject.getId() != ID.BossEnemy && tempObject.getId() != ID.Player) {
                 if(getBounds().intersects(tempObject.getBounds())){
                     if (!Menu.isHardMode) {
                         HUD.HEALTH--;
@@ -56,10 +56,19 @@ public class Player extends GameObject{
                         HUD.HEALTH -= 100;
                     }
                 }
-            }
-            if (tempObject.getId() == ID.BossEnemy){
+            } else if (tempObject.getId() == ID.BossEnemy) {
                 if(getBounds().intersects(tempObject.getBounds())){
-                    Boss_HUD.HEALTH--;
+                    if (Handler.bossEnemy != null) {
+                        if (Handler.bossEnemy.getIsVulnerable()) {
+                            Boss_HUD.HEALTH--;
+                        } else {
+                            if (!Menu.isHardMode) {
+                                HUD.HEALTH--;
+                            } else {
+                                HUD.HEALTH -= 100;
+                            }
+                        }
+                    }
                 }
             }
 

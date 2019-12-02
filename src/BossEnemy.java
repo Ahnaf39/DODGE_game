@@ -4,14 +4,17 @@ import java.util.Random;
 public class BossEnemy extends GameObject {
 
     private Random r = new Random();
-    public static int PHASE_1 = 0;
-    public static int PHASE_2 = 1;
-    public static int PHASE_3 = 2;
-    public static int PHASE_DMG = 99;
     public boolean isVulnerable = false;
     public int bossHeath = 100;
 
-    private int bossPhase = PHASE_1;
+    public enum PHASES {
+        PHASE_1,
+        PHASE_2,
+        PHASE_3,
+        PHASE_DMG
+    }
+
+    private BossEnemy.PHASES bossPhase = PHASES.PHASE_1;
 
     public BossEnemy(int x, int y, ID id) {
         super(x,y,id);
@@ -26,7 +29,7 @@ public class BossEnemy extends GameObject {
     }
 
     public void tick() {
-        if (bossPhase < PHASE_3) {
+        if (bossPhase != PHASES.PHASE_3) {
             velX = 0;
             velY = 0;
         } else {
@@ -45,7 +48,11 @@ public class BossEnemy extends GameObject {
 
 
     public void render(Graphics g) {
-        g.setColor(Color.magenta);
+        if (isVulnerable) {
+            g.setColor(Color.ORANGE);
+        } else {
+            g.setColor(Color.magenta);
+        }
         int[] xpoints0 = {(int) x,      (int) x,      (int) x - 12};
         int[] ypoints0 = {(int) y + 20, (int) y + 30, (int) y + 25};
         int[] xpoints1 = {(int) x + 15, (int) x + 31, (int) x + 23};
@@ -61,11 +68,11 @@ public class BossEnemy extends GameObject {
         g.fillPolygon(xpoints3,ypoints3,3);
     }
 
-    public int getBossPhase() {
+    public BossEnemy.PHASES getBossPhase() {
         return bossPhase;
     }
 
-    public void setBossPhase(int bossPhase) {
+    public void setBossPhase(BossEnemy.PHASES bossPhase) {
         this.bossPhase = bossPhase;
     }
 
