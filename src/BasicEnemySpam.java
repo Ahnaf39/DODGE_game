@@ -9,8 +9,8 @@ public class BasicEnemySpam extends GameObject {
         super(x,y,id);
         storeX = x;
         storeY = y;
-        velX = -1 * (r.nextInt(9) + 1);
-        velY = r.nextInt(5);
+        velX = -1 * (r.nextInt(5) + 1);
+        velY = r.nextInt(4);
 
     }
 
@@ -26,7 +26,7 @@ public class BasicEnemySpam extends GameObject {
         x += velX;
         y += velY;
 
-        if (y<=0 || y>=Game.HEIGHT || x<=0 || x>=Game.WIDTH){
+        if (y <= 0 || y >= Game.HEIGHT || x <= 0 || x >= Game.WIDTH){
             x = storeX;
             y = storeY;
         }

@@ -31,10 +31,18 @@ public class Handler {
 
             if (tempObject.id == ID.Basic_Enemy) {
                 Basic_Enemy check_death = (Basic_Enemy) tempObject;
-                if (check_death.getCount() == 5) {
+                if (check_death.getCount() >= 5) {
                     removeObject(tempObject);
                 }
             }
+
+            if (tempObject.id == ID.SmartEnemy) {
+                SmartEnemy check_death = (SmartEnemy) tempObject;
+                if (check_death.getTime() == 1000) {
+                    removeObject(tempObject);
+                }
+            }
+
         }
     }
 
