@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
+
 public class Menu extends MouseAdapter{
     private Handler handler;
     private Random r = new Random();
@@ -19,8 +20,8 @@ public class Menu extends MouseAdapter{
         GameState gameState = new GameState(handler);
         //Start button
         if(mouseOver(mx,my,100,100,100,64)){ //xywidthheight taken from Start rectangle. Need better code
+            Game.gameState = Game.STATE.FirstStage;
             gameState.GState();
-
         }
         else if(mouseOver(mx,my,100,200,100,64)){ //xywidthheight taken from Start rectangle. Need better code
             System.exit(1);
@@ -51,6 +52,10 @@ public class Menu extends MouseAdapter{
 
     }
 
+    /**
+     * Draw all the menu state elements
+     * @param g Graphics object to draw all elements
+     */
     public void render(Graphics g){
         Font fnt = new Font("helvetica", 1, 32);
         g.setFont(fnt);

@@ -6,15 +6,18 @@ public class Handler {
     static Basic_Enemy initialEnemy = null;
     static BossEnemy bossEnemy = null;
 
+    /**
+     * Tick to check updated objects list for the game and control logic
+     * for Player death and enemy spawning
+     */
     public void tick(){
-        for (int i=0; i<object.size(); i++){
-            GameObject tempObject = object.get(i);
+        for (GameObject tempObject : object) {
             tempObject.tick();
+
             if (tempObject.id == ID.Player) {
                 if (HUD.HEALTH == 0) {
                     ((Player) tempObject).setPlayerState(Player.PLAYER_DEAD);
                 }
-
             }
 
             if (initialEnemy == null) {
@@ -46,22 +49,25 @@ public class Handler {
         }
     }
 
+    /**
+     * Render each object including the player death
+     * @param g Graphic object to render objects
+     */
     public void render (Graphics g){
-        for(int i=0; i<object.size();i++){
-            GameObject tempObject = object.get(i);
+        for (GameObject tempObject : object) {
             tempObject.render(g);
 
-            if (tempObject.getId() == ID.Player && ((Player) tempObject).getPlayerState()==Player.PLAYER_DEAD) {
-                ((Player)tempObject).playerDeath(g);
+            if (tempObject.getId() == ID.Player && ((Player) tempObject).getPlayerState() == Player.PLAYER_DEAD) {
+                ((Player) tempObject).playerDeath(g);
             }
         }
     }
 
-    public void addObject(GameObject object){
-        this.object.add(object);
+    void addObject(GameObject object){
+        Handler.object.add(object);
     }
 
-    public void removeObject (GameObject object){
-        this.object.remove(object);
+    private void removeObject(GameObject object){
+        Handler.object.remove(object);
     }
 }

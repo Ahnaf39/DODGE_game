@@ -11,27 +11,37 @@ public class GameState {
     private int time;
     private int enemyWave = 0;
     private int duration = 100;
-    private BossEnemy boss;
     private Random random = new Random();
+
+    // ---------- Boss phase control ------------
     private boolean phase1Started = false;
     private boolean phase2Started = false;
     private boolean phase3Started = false;
     private int numPhase2Waves = 0;
     private BossEnemy.PHASES prev = BossEnemy.PHASES.PHASE_1;
+    // -------------------------------------------
 
+    /**
+     * GameState object to handle level and menu transitions, player placement
+     * and enemy spawn logic. This class also controls the phases for the boss
+     * in level 5
+     * @param handler Handler object associated with the game
+     */
     public GameState(Handler handler){
         this.handler=handler;
     }
 
+    /**
+     * Main method to handle all level transitions and enemy placement logic
+     */
     public void GState(){
 
         time = 0;
 
-        if (Game.gameState == Game.STATE.Menu || Game.gameState==Game.STATE.FirstStage) {
+        if (Game.gameState == Game.STATE.FirstStage) {
 
             Handler.object.clear();
-            Game.gameState = Game.STATE.FirstStage;
-            handler.addObject(new Player(100, 100, ID.Player, handler));
+            handler.addObject(new Player(100, 100, ID.Player));
             handler.addObject(new Basic_Enemy(600, 50, ID.Basic_Enemy));
             HUD.level = 1;
 
@@ -39,7 +49,7 @@ public class GameState {
 
             Handler.object.clear();
             Handler.initialEnemy = null;
-            handler.addObject(new Player(100, 100, ID.Player, handler));
+            handler.addObject(new Player(100, 100, ID.Player));
             handler.addObject(new SmartEnemy(600, 50, ID.SmartEnemy));
             HUD.level = 2;
 
@@ -47,7 +57,7 @@ public class GameState {
 
             Handler.object.clear();
             Handler.initialEnemy = null;
-            handler.addObject(new Player(100, 100, ID.Player, handler));
+            handler.addObject(new Player(100, 100, ID.Player));
             HUD.level = 3;
             enemyWave = 0;
 
@@ -55,7 +65,7 @@ public class GameState {
 
             Handler.object.clear();
             Handler.initialEnemy = null;
-            handler.addObject(new Player(100, 100, ID.Player, handler));
+            handler.addObject(new Player(100, 100, ID.Player));
             handler.addObject(new SmartEnemy(random.nextInt(Game.WIDTH), random.nextInt(Game.HEIGHT), ID.SmartEnemy));
 
             for (int j = 1; j < 18; j++) {
@@ -70,14 +80,17 @@ public class GameState {
             phase2Started = false;
             Handler.object.clear();
             Handler.initialEnemy = null;
-            boss = new BossEnemy(Game.WIDTH - 80, Game.HEIGHT / 2 - 16, ID.BossEnemy);
+            BossEnemy boss = new BossEnemy(Game.WIDTH - 80, Game.HEIGHT / 2 - 16, ID.BossEnemy);
             boss.setBossPhase(BossEnemy.PHASES.PHASE_1);
-            handler.addObject(new Player(100, 100, ID.Player, handler));
+            handler.addObject(new Player(100, 100, ID.Player));
             handler.addObject(boss);
             HUD.level = 5;
         }
     }
 
+    /**
+     * Tick controls updates to level states
+     */
     public void tick(){
         switch (Game.gameState) {
             case FirstStage:
@@ -106,6 +119,10 @@ public class GameState {
         }
     }
 
+    /**
+     * Render some text during levels to inform players of what they have to/should do
+     * @param g Graphics object to write text on the window
+     */
     public void render(Graphics g){
         if (Game.gameState == Game.STATE.FirstStage) {
             if (time < duration) {
@@ -130,6 +147,9 @@ public class GameState {
         }
     }
 
+    /**
+     * Spawn basic enemy (demo)
+     */
     private void firstStageLogic() {
         time++;
         if (Handler.initialEnemy != null) {
@@ -140,6 +160,9 @@ public class GameState {
         }
     }
 
+    /**
+     * Spawn smart enemy (demo)
+     */
     private void secondStageLogic() {
         time++;
         if(time >= 1000){
@@ -148,6 +171,9 @@ public class GameState {
         }
     }
 
+    /**
+     * Spawn incremental waves of basic enemies
+     */
     private void thirdStageLogic() {
         time++;
         if ((time % (2 * duration) == 0 && enemyWave < 10) || enemyWave == 0) {
@@ -162,6 +188,10 @@ public class GameState {
         }
     }
 
+    /**
+     * Spawn consistent waves of basic enemies with a smart enemy
+     * to make things difficult
+     */
     private void fourthStageLogic() {
         time++;
         boolean isSmartPresent = false;
@@ -178,6 +208,9 @@ public class GameState {
         }
     }
 
+    /**
+     * Boss enemy logic selector based on phase
+     */
     private void fifthStageLogic() {
         time ++;
         if (Handler.bossEnemy != null) {
@@ -202,8 +235,6 @@ public class GameState {
                     bossPhase1Logic();
                     break;
             }
-        } else {
-//                System.err.println("Should not be here. Kill program");
         }
     }
 
