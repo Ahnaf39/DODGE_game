@@ -23,7 +23,7 @@ public class BossEnemy extends GameObject {
     }
 
     public Rectangle getBounds(){
-        return new Rectangle((int)x,(int)y,48,48);
+        return new Rectangle((int)x+12,(int)y+10,60,60);
         //16 is from width and height below
         // needs better implementation and less hardcody
     }
