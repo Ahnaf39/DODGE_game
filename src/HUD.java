@@ -1,11 +1,18 @@
 import java.awt.*;
 
+/**
+ * Player object health indicator.
+ * Damage is inflicted when player is in contact with any enemy
+ */
 public class HUD {
     public static int HEALTH = 100;
     private int greenValue = 255;
     private int redValue = 0;
     public static int level = 1;
 
+    /**
+     * Check for player health, and update health bar color
+     */
     public void tick(){
         if (HEALTH <= 0){
             HEALTH = 0;

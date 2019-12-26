@@ -1,12 +1,23 @@
 import java.awt.*;
 import java.util.Random;
 
+/**
+ *
+ */
 public class SmartEnemy extends GameObject {
 
     private GameObject player;
     private int time;
     private Random r = new Random();
 
+    private int SMART_ENEMY_SIZE = 16;
+
+    /**
+     * Create a new Smart Enemy object that follows the player
+     * @param x initial x-coordinate of the Smart Enemy
+     * @param y initial y-coordinate of the Smart Enemy
+     * @param id ID attached to smart enemy object
+     */
     public SmartEnemy(int x, int y, ID id) {
         super(x,y,id);
         time = 0;
@@ -20,11 +31,18 @@ public class SmartEnemy extends GameObject {
 
     }
 
+    /**
+     * Produce of the effective area for the Smart Enemy to collide with the player and deal damage
+     * @return rectangle that is the collision area of the Smart Enemy
+     */
     public Rectangle getBounds(){
-        return new Rectangle((int)x,(int)y,16,16);
-        //16 is from width and height below
-        // needs better implementation and less hardcody
+        return new Rectangle((int)x,(int)y,SMART_ENEMY_SIZE,SMART_ENEMY_SIZE);
     }
+
+    /**
+     * Defines the Smart Enemy movement at each tick
+     * Follow player based on distance to player position
+     */
     public void tick() {
 
         x += velX;
@@ -46,12 +64,21 @@ public class SmartEnemy extends GameObject {
         time++;
     }
 
+    /**
+     * Keep track of number of ticks the smart enemy has
+     * been alive for to provide information to Handler
+     * @return
+     */
     public int getTime() {
         return this.time;
     }
 
+    /**
+     * Renders the Smart Enemy at all ticks
+     * @param g Graphic object to render the Smart Enemy
+     */
     public void render(Graphics g) {
         g.setColor(Color.pink);
-        g.fillOval((int)x,(int)y,16, 16);
+        g.fillOval((int)x,(int)y,SMART_ENEMY_SIZE, SMART_ENEMY_SIZE);
     }
 }

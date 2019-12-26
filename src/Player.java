@@ -1,5 +1,9 @@
 import java.awt.*;
 
+/**
+ * Handles everything regarding the player object
+ * Uses GameObject to get player's initial position and to get its ID associated to it
+ */
 public class Player extends GameObject{
     static int PLAYER_ALIVE = 1;
     static int PLAYER_DEAD = 0;
@@ -14,8 +18,8 @@ public class Player extends GameObject{
 
     /**
      * Create a new Player object that can be controlled with keyboard inputs (arrow keys)
-     * @param x initial x-coordinate starting position of the player
-     * @param y initial y-coordinate starting position of the player
+     * @param x initial x-coordinate of the player
+     * @param y initial y-coordinate of the player
      * @param id ID attached to player object
      */
     Player(int x, int y, ID id) {

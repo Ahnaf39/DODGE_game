@@ -4,7 +4,9 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
-
+/**
+ * Handles the Menu state of the game. Uses MouseAdapter to determine mouse clicks
+ */
 public class Menu extends MouseAdapter{
     private Handler handler;
     private Random r = new Random();
@@ -14,6 +16,10 @@ public class Menu extends MouseAdapter{
         this.handler=handler;
     }
 
+    /**
+     * Checks where the mouse was clicked and sets the game configuration based on the clicks
+     * @param e event to check where mouse click took place
+     */
     public void mousePressed(MouseEvent e){
         int mx = e.getX();
         int my = e.getY();
@@ -37,24 +43,31 @@ public class Menu extends MouseAdapter{
         }
     }
 
+    /**
+     * Checks whether mouse click was released
+     * @param e event to check release of mouse click
+     */
     public void mouseReleased(MouseEvent e){
 
     }
 
     private boolean mouseOver(int mx, int my,int x, int y, int width, int height){
-        if (mx>x && mx<x+width){
+        if (mx > x && mx < x + width) {
             return my > y && my < y + height;
         }
         return false;
     }
 
+    /**
+     * Currently does nothing
+     */
     public void tick(){
 
     }
 
     /**
      * Draw all the menu state elements
-     * @param g Graphics object to draw all elements
+     * @param g Graphics obje ct to draw all elements
      */
     public void render(Graphics g){
         Font fnt = new Font("helvetica", 1, 32);

@@ -1,6 +1,15 @@
 import java.awt.*;
 import java.util.LinkedList;
 
+/**
+ * The Handler class is responsible to maintaining a list of objects in the game
+ * and conditions for their removal from the list.
+ *
+ * Basic enemies disappear after they have rebounded off of the edges of the screen
+ * 5 times
+ *
+ * Smart enemies disappear after 1000 ticks.
+ */
 public class Handler {
     static LinkedList<GameObject> object = new LinkedList<GameObject>();
     static Basic_Enemy initialEnemy = null;
@@ -11,13 +20,14 @@ public class Handler {
      * for Player death and enemy spawning
      */
     public void tick(){
-        for (GameObject tempObject : object) {
+        for (int i = 0; i < object.size(); i++){
+            GameObject tempObject = object.get(i);
             tempObject.tick();
-
             if (tempObject.id == ID.Player) {
                 if (HUD.HEALTH == 0) {
                     ((Player) tempObject).setPlayerState(Player.PLAYER_DEAD);
                 }
+
             }
 
             if (initialEnemy == null) {

@@ -6,6 +6,10 @@ import java.util.List;
 
 import static java.lang.Math.*;
 
+/**
+ * This class manages all the enemy spawning and
+ * addition/removal of objects in the Handler list
+ */
 public class GameState {
     private Handler handler;
     private int time;

@@ -1,12 +1,18 @@
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * Boss enemy is a class,
+ */
 public class BossEnemy extends GameObject {
 
     private Random r = new Random();
     public boolean isVulnerable = false;
     public int bossHeath = 100;
 
+    /**
+     * Enum to keep track of the various boss phases
+     */
     public enum PHASES {
         PHASE_1,
         PHASE_2,
@@ -16,18 +22,29 @@ public class BossEnemy extends GameObject {
 
     private BossEnemy.PHASES bossPhase = PHASES.PHASE_1;
 
+    /**
+     * Constructor for boss enemy class
+     * @param x initial x-coordinate of the boss
+     * @param y initial y-coordinate of the boss
+     * @param id ID attached to the boss object
+     */
     public BossEnemy(int x, int y, ID id) {
         super(x,y,id);
         velX = -1 * (r.nextInt(9) + 1);
         velY = r.nextInt(5);
     }
 
+    /**
+     * Bounds of intersection for the boss to deal or receive damage
+     * @return a rectangle object that provides bounds of intersection of the boss
+     */
     public Rectangle getBounds(){
         return new Rectangle((int)x+12,(int)y+10,60,60);
-        //16 is from width and height below
-        // needs better implementation and less hardcody
     }
 
+    /**
+     * Boss tick to check for updates in movement
+     */
     public void tick() {
         if (bossPhase != PHASES.PHASE_3) {
             velX = 0;
@@ -36,17 +53,19 @@ public class BossEnemy extends GameObject {
             x += velX;
             y += velY;
 
-            if (y <= 0 || y >= Game.HEIGHT-32){
+            if (y <= 0 || y >= Game.HEIGHT - 32){
                 velY *= -1; //this y is rebound
             }
-            if (x <= 0 || x >= Game.WIDTH-16){
+            if (x <= 0 || x >= Game.WIDTH - 16){
                 velX *= -1; //this x is rebound
             }
         }
     }
 
-
-
+    /**
+     * Render boss object (with superficial spikes for design)
+     * @param g Graphics object to render on the canvas
+     */
     public void render(Graphics g) {
         if (isVulnerable) {
             g.setColor(Color.ORANGE);
